@@ -14,6 +14,7 @@ export class MapContainer extends Component {
       locations: getListCoordinates()
     }
   }
+  
 
   displayMarkers = () => {
     return this.state.locations.map((locations, index) => {
