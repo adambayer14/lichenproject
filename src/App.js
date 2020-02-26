@@ -11,31 +11,15 @@ export class MapContainer extends Component {
     super(props);
 
     this.state = {
-      stores: [{lat: 40.44035,	lon: -111.7203},
-      {lat: 40.05128,	lon: -111.5377},
-      {lat: 40.51708, lon: -111.661},
-      {lat: 39.90448, lon: -111.7343},
-      {lat: 40.18558,	lon: -111.5654},
-      {lat: 40.26498,	lon: -111.6207},
-      {lat: 39.80445,	lon: -111.6944},
-      {lat: 40.48597,	lon: -111.7057},
-      {lat: 40.10977,	lon: -111.4343},
-      {lat: 40.3294,	lon: -111.5293},
-      {lat: 40.26498,	lon: -111.6207},
-      {lat: 39.75353,	lon: -111.8163},
-      {lat: 40.3294,	lon: -111.5293},
-      {lat: 40.18558,	lon: -111.5654}
-      ]
+      locations: getListCoordinates()
     }
-
   }
 
-
   displayMarkers = () => {
-    return this.state.stores.map((store, index) => {
+    return this.state.locations.map((locations, index) => {
       return <Marker key={index} id={index} position={{
-       lat: store.latitude,
-       lng: store.longitude
+       lat: locations.latitude,
+       lng: locations.longitude
      }}
      onClick={() => console.log("You clicked me!")} />
     })
@@ -43,19 +27,35 @@ export class MapContainer extends Component {
 
   render() {
     return (
-      <Map
-        google={this.props.google}
-        zoom={8}
-        style={mapStyles}
-        initialCenter={{ lat: 40.2338, lng: -111.6585 }}
-      >
-
-      {this.displayMarkers()}
-
-    </Map>
+        <Map
+          google={this.props.google}
+          zoom={8}
+          style={mapStyles}
+          initialCenter={{ lat: 40.44035, lng: -111.7203}}
+        >
+          {this.displayMarkers()}
+        </Map>
     );
   }
+}
 
+function getListCoordinates() {
+  var listCoords = [{latitude: 40.44035,	longitude: -111.7203},
+      {latitude: 40.05128,	longitude: -111.5377},
+      {latitude: 40.51708, longitude: -111.661},
+      {latitude: 39.90448, longitude: -111.7343},
+      {latitude: 40.18558,	longitude: -111.5654},
+      {latitude: 40.26498,	longitude: -111.6207},
+      {latitude: 39.80445,	longitude: -111.6944},
+      {latitude: 40.48597,	longitude: -111.7057},
+      {latitude: 40.10977,	longitude: -111.4343},
+      {latitude: 40.3294,	longitude: -111.5293},
+      {latitude: 40.26498,	longitude: -111.6207},
+      {latitude: 39.75353,	longitude: -111.8163},
+      {latitude: 40.3294,	longitude: -111.5293},
+      {latitude: 40.18558,	longitude: -111.5654}
+      ]
+  return listCoords
 }
 
 export default GoogleApiWrapper({
