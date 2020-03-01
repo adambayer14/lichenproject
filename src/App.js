@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 
-const mapStyles = {
-  width: '70%',
-  height: '60%'
+let mapStyles = {
+  width: '600px',
+  height:'400px'
 };
 
 export class MapContainer extends Component {
@@ -43,16 +43,16 @@ export class MapContainer extends Component {
 
   render() {
     return (
-      <Map
-        google={this.props.google}
-        zoom={8}
-        style={mapStyles}
-        initialCenter={{ lat: 40.2338, lng: -111.6585 }}
-      >
+        <Map
+          google={this.props.google}
+          zoom={8}
+          style={mapStyles}
+          initialCenter={{ lat: 40.2338, lng: -111.6585 }}
+        >
 
-      {this.displayMarkers()}
+        {this.displayMarkers()}
 
-    </Map>
+        </Map>
     );
   }
 
