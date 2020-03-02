@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import { useTable } from 'react-table'
 
-
-
-// Map Code Starts Here
-const mapStyles = {
-  width: '70%',
-  height: '60%'
+let mapStyles = {
+  width: '600px',
+  height:'400px'
 };
 
 export class MapContainer extends Component {
