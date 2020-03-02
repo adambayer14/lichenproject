@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { useTable } from 'react-table'
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
 
@@ -38,7 +37,7 @@ class RadioColorGradient extends React.Component {
           </Col>
         </Row>
         <Row>
-            <Col xs="1">
+            <Col>
               <label>
                 <input type="radio" value="None" checked={this.state.element === "None"} onChange={this.handleChange}/>
               None
@@ -64,7 +63,7 @@ class RadioColorGradient extends React.Component {
               P%
               </label>
             </Col>
-            <Col xs="1">
+            <Col>
               <label>
                 <input type="radio" value="S" checked={this.state.element === "S"} onChange={this.handleChange}/>
               S

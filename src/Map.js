@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
-import { useTable } from 'react-table'
+import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
 let mapStyles = {
   width: '600px',
@@ -12,10 +11,29 @@ export class MapContainer extends Component {
     super(props);
 
     this.state = {
-      locations: getListCoordinates()
+      locations: getListCoordinates(),
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedLocation: {}
     }
   }
 
+  //need to change this for our stuff
+  onMarkerClick = (props, marker, e) => this.setState({
+    selectedLocation: props,
+    activeMarker: marker,
+    showingInfoWindow: true
+  });
+
+  //need to change this for our stuff
+  onClose = props => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      });
+    }
+  };
 
   displayMarkers = () => {
     return this.state.locations.map((locations, index) => {
@@ -23,7 +41,9 @@ export class MapContainer extends Component {
        lat: locations.latitude,
        lng: locations.longitude
      }}
-     onClick={() => console.log("You clicked me!")} />
+     onClick={this.onMarkerClick}
+     name={locations.latitude}
+     />
     })
   }
 
@@ -36,6 +56,15 @@ export class MapContainer extends Component {
             initialCenter={{ lat: 40.44035, lng: -111.7203}}
           >
             {this.displayMarkers()}
+            <InfoWindow
+              marker={this.state.activeMarker}
+              visible={this.state.showingInfoWindow}
+              onClose={this.onClose}
+            >
+              <div>
+                <h4>{this.state.selectedLocation.name}</h4>
+              </div>
+            </InfoWindow>
           </Map>
     );
   }
