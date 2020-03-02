@@ -5,8 +5,8 @@ import {RadioColorGradient} from './RadioButtons'
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 
-ReactDOM.render(<div>
-  <Map/>
+ReactDOM.render(
+  <div>
   <RadioColorGradient/>
 </div>, document.getElementById('root'));
 
