@@ -5,10 +5,8 @@ import {RadioColorGradient} from './RadioButtons'
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 
-ReactDOM.render(
-  <div>
-  <RadioColorGradient/>
-</div>, document.getElementById('root'));
+ReactDOM.render(<Map/>, document.getElementById('root'));
+ReactDOM.render(<RadioColorGradient/>, document.getElementById('elements'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
