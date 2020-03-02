@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import { useTable } from 'react-table'
 
+
+
+// Map Code Starts Here
 const mapStyles = {
   width: '70%',
   height: '60%'
@@ -14,7 +18,7 @@ export class MapContainer extends Component {
       locations: getListCoordinates()
     }
   }
-  
+
 
   displayMarkers = () => {
     return this.state.locations.map((locations, index) => {
@@ -28,14 +32,14 @@ export class MapContainer extends Component {
 
   render() {
     return (
-        <Map
-          google={this.props.google}
-          zoom={8}
-          style={mapStyles}
-          initialCenter={{ lat: 40.44035, lng: -111.7203}}
-        >
-          {this.displayMarkers()}
-        </Map>
+          <Map
+            google={this.props.google}
+            zoom={8}
+            style={mapStyles}
+            initialCenter={{ lat: 40.44035, lng: -111.7203}}
+          >
+            {this.displayMarkers()}
+          </Map>
     );
   }
 }
@@ -62,3 +66,5 @@ function getListCoordinates() {
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBI1RiUMsjw1UhbRc8wKWUt7VphFjvyNkA'
 })(MapContainer);
+
+// Map Code Ends Here
