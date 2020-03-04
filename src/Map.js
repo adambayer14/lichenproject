@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import { Redirect } from "react-router-dom";
+import InfoWindowEx from "./InfoWindowEx"
+import { BrowserRouter as Router, Link} from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import { MoreInfoRender } from './MoreInfo';
 
 let mapStyles = {
   width: '600px',
@@ -14,8 +19,11 @@ export class MapContainer extends Component {
       locations: getListCoordinates(),
       showingInfoWindow: false,
       activeMarker: {},
-      selectedLocation: {}
+      selectedLocation: {},
+      moreInfoRedirect: false,
+
     }
+    this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
   }
 
   //need to change this for our stuff
@@ -30,7 +38,8 @@ export class MapContainer extends Component {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
-        activeMarker: null
+        activeMarker: null,
+        moreInfoUrl: null
       });
     }
   };
@@ -47,25 +56,47 @@ export class MapContainer extends Component {
     })
   }
 
+  handleMoreInfoClick() {
+    //alert(`You are leaving.`);
+    //window.location.reload();
+    this.setState({moreInfoRedirect: true});
+    window.open('/moreinfo');
+  }
+
   render() {
+
+    // if (this.state.moreInfoRedirect) {
+    //   return (
+    //   //   <Router>
+    //   //     <Route path="/" exact></Route>
+    //   //     <Route path="/moreinfo" exact component={MoreInfoRender}/>
+    //   //     <Redirect push to="/moreinfo" />
+    //   //   </Router>
+    //
+    //
+    //
+    //   );
+    // }
+
     return (
-          <Map
-            google={this.props.google}
-            zoom={8}
-            style={mapStyles}
-            initialCenter={{ lat: 40.44035, lng: -111.7203}}
-          >
-            {this.displayMarkers()}
-            <InfoWindow
-              marker={this.state.activeMarker}
-              visible={this.state.showingInfoWindow}
-              onClose={this.onClose}
-            >
-              <div>
-                <h4>{this.state.selectedLocation.name}</h4>
-              </div>
-            </InfoWindow>
-          </Map>
+      <Map
+        google={this.props.google}
+        zoom={8}
+        style={mapStyles}
+        initialCenter={{ lat: 40.44035, lng: -111.7203}}
+        >
+        {this.displayMarkers()}
+        <InfoWindowEx
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}
+          onClose={this.onClose}
+        >
+          <div>
+            <p>{this.state.selectedLocation.name}</p>
+            <button type="button" onClick={this.handleMoreInfoClick}>More Info</button>
+          </div>
+        </InfoWindowEx>
+      </Map>
     );
   }
 }
@@ -92,5 +123,6 @@ function getListCoordinates() {
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBI1RiUMsjw1UhbRc8wKWUt7VphFjvyNkA'
 })(MapContainer);
+
 
 // Map Code Ends Here
