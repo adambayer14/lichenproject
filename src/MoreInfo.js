@@ -10,24 +10,13 @@ import Route from 'react-router-dom/Route';
 class MoreInfoRender extends React.Component {
   constructor(props) {
     super(props)
-
-    this.containerMoreInfo = document.createElement('div');
-    this.externalWindow = null;
   }
 
 
 
   render() {
     return(
-      <Router>
-        <div>
-          <Route path="/moreinfo" exact render={
-            () => {
-              return(<p>Did it Work?</p>);
-            }
-          }/>
-        </div>
-      </Router>
+      <p>Did it work</p>
     );
   }
 

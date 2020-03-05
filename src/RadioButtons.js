@@ -33,6 +33,8 @@ class RadioColorGradient extends React.Component {
 
   render() {
     return (
+      
+      <div class="element-container">
       <Container>
         <Row>
           <Col>
@@ -191,6 +193,7 @@ class RadioColorGradient extends React.Component {
             </Col>
           </Row>
         </Container>
+        </div>
     );
   }
 
