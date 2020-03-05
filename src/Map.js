@@ -22,9 +22,24 @@ export class MapContainer extends Component {
       activeMarker: {},
       selectedLocation: {},
       moreInfoRedirect: false,
+      element: 'None',
+      elementContainer: document.getElementById('elements')
 
     }
     this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({
+      element: event.target.value
+    });
+  }
+
+  // Don't need this in the end. Can just update map with handleChange()
+  handleSubmit(event) {
+    alert(`You are choosing the element ${this.state.element}.`);
   }
 
   //need to change this for our stuff
