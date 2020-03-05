@@ -24,7 +24,7 @@ ReactDOM.render(
   <Router>
     <Route path="/" exact>
       <Map/>
-      <RadioColorGradient/>
+
     </Route>
     <Route path="/moreinfo" exact>
       <MoreInfoRender/>
