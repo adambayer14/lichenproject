@@ -10,8 +10,10 @@
     "bootstrap-4-grid": "^3.4.0",
     "google-maps-react": "^2.0.2",
     "grid": "^3.3.7",
+    "r-script": "0.0.4",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-table": "^7.0.0-rc.16",
     "reactstrap": "^8.4.1"

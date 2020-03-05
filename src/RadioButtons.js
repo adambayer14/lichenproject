@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from 'reactstrap';
+import { BrowserRouter as Router, Link} from 'react-router-dom';
+import Route from 'react-router-dom/Route';
+import { MoreInfoRender } from './MoreInfo';
 
 
 // Radio Buttons for Color Gradient
@@ -10,7 +13,8 @@ class RadioColorGradient extends React.Component {
     super(props)
 
     this.state = {
-      element: 'None'
+      element: 'None',
+      elementContainer: document.getElementById('elements')
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +33,8 @@ class RadioColorGradient extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+
+      <div class="element-container">
       <Container>
         <Row>
           <Col>
@@ -37,7 +42,7 @@ class RadioColorGradient extends React.Component {
           </Col>
         </Row>
         <Row>
-            <Col>
+            <Col xs='2'>
               <label>
                 <input type="radio" value="None" checked={this.state.element === "None"} onChange={this.handleChange}/>
               None
@@ -63,7 +68,7 @@ class RadioColorGradient extends React.Component {
               P%
               </label>
             </Col>
-            <Col>
+            <Col xs='2'>
               <label>
                 <input type="radio" value="S" checked={this.state.element === "S"} onChange={this.handleChange}/>
               S
@@ -89,7 +94,7 @@ class RadioColorGradient extends React.Component {
               Cd
               </label>
             </Col>
-            <Col>
+            <Col xs='2'>
               <label>
                 <input type="radio" value="Co" checked={this.state.element === "Co"} onChange={this.handleChange}/>
               Co
@@ -115,7 +120,7 @@ class RadioColorGradient extends React.Component {
               Mo
               </label>
             </Col>
-            <Col>
+            <Col xs='2'>
               <label>
                 <input type="radio" value="Na" checked={this.state.element === "Na"} onChange={this.handleChange}/>
               Na
@@ -141,7 +146,7 @@ class RadioColorGradient extends React.Component {
               Sr
               </label>
             </Col>
-            <Col>
+            <Col xs='2'>
               <label>
                 <input type="radio" value="Ti" checked={this.state.element === "Ti"} onChange={this.handleChange}/>
               Ti
@@ -167,14 +172,14 @@ class RadioColorGradient extends React.Component {
               Rb
               </label>
             </Col>
-            <Col>
+            <Col xs='2'>
               <label>
                 <input type="radio" value="Cu.Zn" checked={this.state.element === "Cu.Zn"} onChange={this.handleChange}/>
-              Cu.Zn
+              CuZn
               </label>
               <label>
                 <input type="radio" value="Fe.Ti" checked={this.state.element === "Fe.Ti"} onChange={this.handleChange}/>
-              Fe.Ti
+              FeTi
               </label>
               <label>
                 <input type="radio" value="F" checked={this.state.element === "F"} onChange={this.handleChange}/>
@@ -184,12 +189,11 @@ class RadioColorGradient extends React.Component {
             </Row>
             <Row>
             <Col>
-            <button type="submit">Add Map Gradient</button>
+            <button onClick={this.handleSubmit}>Add Map Gradient</button>
             </Col>
           </Row>
         </Container>
-
-      </form>
+        </div>
     );
   }
 
