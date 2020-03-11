@@ -16,7 +16,52 @@ class MoreInfoRender extends React.Component {
 
   render() {
     return(
-      <p>Did it work</p>
+      <div class="more-info-container">
+        <div class="header-container">
+          <div class="header">
+            Info for Site Number: 
+          </div>
+        </div>
+
+        <div class="more-info-content">
+          <div class="info-selector-row">
+            Info Selector Row
+            <div class="site-info">
+              Site ID:
+              <br></br>
+              Species:
+              <br></br>
+              Year Sampled:
+              <br></br>
+              Analysis Method:
+              <br></br>
+              Latitude:
+              <br></br>
+              Longitude:
+            </div>
+            <div class="site-info-download">
+              <button>Download Site Data</button>
+            </div>
+          </div>
+          <div class="info-display-row">
+            Info Display Row
+            <div class="graph-container"></div>
+            <div class="graph-download">
+              <button>Download Graph</button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="footer-container">
+          <div class="footer">
+            Footer
+          </div>
+        </div>
+      </div>
+        
+
+      
     );
   }
 
