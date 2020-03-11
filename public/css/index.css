@@ -24,15 +24,17 @@ body{
 }
 .info-selector-row {
     width: 400px;
-    height: 400px;
+    height: 700px;
     border: 3px solid black;
     margin: 8px;
 }
 .info-display-row {
     width: 600px;
-    height: 400px;
+    height: 700px;
     border: 3px solid black;
     margin: 8px;
+    display: flex;
+    flex-direction: column;
 }
 .site-info {
     border: 1px solid black;
@@ -63,6 +65,16 @@ body{
 .footer{
     font-family: Arial, Helvetica, sans-serif;
     color: white;
+}
+
+.sitepercent{
+  width: 580px;
+  height: auto;
+}
+
+.siteppm {
+  width: 580px;
+  height: auto;
 }
 
 @media only screen and (min-width: 961px) {
