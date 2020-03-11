@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
+import Img from 'react-image'
 
 
 // More info page
@@ -19,7 +20,7 @@ class MoreInfoRender extends React.Component {
       <div class="more-info-container">
         <div class="header-container">
           <div class="header">
-            Info for Site Number: 
+            Info for Site Number:
           </div>
         </div>
 
@@ -45,7 +46,14 @@ class MoreInfoRender extends React.Component {
           </div>
           <div class="info-display-row">
             Info Display Row
-            <div class="graph-container"></div>
+            <div class="graph-container">
+              <div class="percentage">
+                <img className="sitepercent" src="/images/ACCTP_1_percent.jpeg" />
+              </div>
+              <div class="ppm">
+                <img className="siteppm" src="/images/ACCTP_1_ppm.jpeg" />
+              </div>
+            </div>
             <div class="graph-download">
               <button>Download Graph</button>
             </div>
@@ -59,9 +67,9 @@ class MoreInfoRender extends React.Component {
           </div>
         </div>
       </div>
-        
 
-      
+
+
     );
   }
 
