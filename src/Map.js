@@ -8,7 +8,7 @@ import { MoreInfoRender } from './MoreInfo';
 import { Container, Row, Col } from 'reactstrap';
 
 let mapStyles = {
-  width: '600px',
+  width: '550px',
   height:'400px'
 };
 
@@ -138,7 +138,7 @@ export class MapContainer extends Component {
           <div class="column" id="sidebar">
             <div class="row">
               <div class="element-container">
-              <Container>
+              <Container align="center">
                 <Row>
                   <Col>
                       <h1>Select Element</h1>
