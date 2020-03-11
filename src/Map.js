@@ -138,7 +138,7 @@ export class MapContainer extends Component {
           <div class="column" id="sidebar">
             <div class="row">
               <div class="element-container">
-              <Container>
+              <Container align="center">
                 <Row>
                   <Col>
                       <h1>Select Element</h1>
