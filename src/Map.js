@@ -8,7 +8,7 @@ import { MoreInfoRender } from './MoreInfo';
 import { Container, Row, Col } from 'reactstrap';
 
 let mapStyles = {
-  width: '600px',
+  width: '550px',
   height:'400px'
 };
 
