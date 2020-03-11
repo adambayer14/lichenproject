@@ -3,7 +3,6 @@ import { Container, Row, Col } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
-import Img from 'react-image'
 
 
 // More info page
