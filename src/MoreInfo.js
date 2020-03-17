@@ -28,20 +28,41 @@ class MoreInfoRender extends React.Component {
           <div class="info-selector-row">
             Info Selector Row
             <div class="site-info">
-              Site ID:
-              <br></br>
-              Species:
-              <br></br>
-              Year Sampled:
-              <br></br>
-              Analysis Method:
-              <br></br>
-              Latitude:
-              <br></br>
-              Longitude:
+            <h3>Site ID: ACCTP_1</h3>
+              <div class="sample-info" id="sample-1520">
+                Sample #: 1520
+                <br></br>
+                Species: xanthoparmelia
+                <br></br>
+                Year: 2015
+                <br></br>
+                Analysis Method: ICP
+              </div>
+              <div class="sample-info" id="sample-1521">
+                Sample #: 1521
+                <br></br>
+                Species: usnea
+                <br></br>
+                Year: 2015
+                <br></br>
+                Analysis Method: ICP
+              </div>
+              <div class="sample-info" id='sample-1522'>
+                Sample #: 1522
+                <br></br>
+                Species: usnea
+                <br></br>
+                Year: 2015
+                <br></br>
+                Analysis Method: ICP
+              </div>
             </div>
             <div class="site-info-download">
               <button>Download Site Data</button>
+            </div>
+            <br></br>
+            <div class="graph-download">
+              <button>Download Graph</button>
             </div>
           </div>
           <div class="info-display-row">
@@ -50,12 +71,10 @@ class MoreInfoRender extends React.Component {
               <div class="percentage">
                 <img className="sitepercent" src="/images/ACCTP_1_percent.jpeg" />
               </div>
+              <hr></hr>
               <div class="ppm">
                 <img className="siteppm" src="/images/ACCTP_1_ppm.jpeg" />
               </div>
-            </div>
-            <div class="graph-download">
-              <button>Download Graph</button>
             </div>
           </div>
         </div>
