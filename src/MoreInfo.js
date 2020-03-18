@@ -24,6 +24,7 @@ class MoreInfoRender extends React.Component {
         </div>
 
         <div class="more-info-content">
+
           <div class="info-selector-row">
             Info Selector Row
             <div class="site-info">
