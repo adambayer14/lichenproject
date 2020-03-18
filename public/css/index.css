@@ -24,26 +24,28 @@ body{
     padding: 7.5px;
 }
 .info-selector-row {
-    width: 400px;
-    height: 700px;
+    width: 250px;
+    /* height: 700px; */
     border: 3px solid black;
     margin: 8px;
+    text-align: center;
 }
 .info-display-row {
-    width: 600px;
-    height: 700px;
+    width: 800px;
+    /* height: 700px; */
     border: 3px solid black;
     margin: 8px;
     display: flex;
     flex-direction: column;
 }
-.site-info {
-    border: 1px solid black;
-    margin: 7px;
+.sample-info {
+    margin: 10px;
+    padding: 3px;
+    text-align: left;
 }
 .graph-container {
     width: inherit;
-    height: 300px;
+
 }
 .column {}
 .row {}
@@ -67,16 +69,61 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     color: white;
 }
-
+.sitepercent, .siteppm {
+    padding: 5px;
+}
+.graph-container, .percentage {
+    width: inherit;
+}
+.ppm, .percentage {
+    justify-content: center;
+}
+img {
+    border: 10px solid red;
+}
 .sitepercent{
-  width: 580px;
-  height: auto;
+    width: 750px;
+    
 }
 
 .siteppm {
-  width: 580px;
-  height: auto;
+    width: 750px;
+    height: auto;
 }
+
+#sample-1520 {
+    border: 3px solid red;
+}
+#sample-1521 {
+    border: 3px solid blue;
+}
+#sample-1522 {
+    border: 3px solid yellow;
+}
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active, .collapsible:hover {
+    background-color: #ccc;
+  }
+  
+  /* Style the collapsible content. Note: hidden by default */
+  .sample-data {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
 
 @media only screen and (min-width: 961px) {
     .header, .footer {
