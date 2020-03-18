@@ -8,7 +8,6 @@ import { Container, Row, Col } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
-import Img from 'react-image'
 
 
 // More info page
@@ -30,6 +29,7 @@ class MoreInfoRender extends React.Component {
         </div>
 
         <div class="more-info-content">
+
           <div class="info-selector-row">
             Info Selector Row
             <div class="site-info">
