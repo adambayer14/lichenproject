@@ -8,8 +8,8 @@ import { MoreInfoRender } from './MoreInfo';
 import { Container, Row, Col } from 'reactstrap';
 
 let mapStyles = {
-  width: '550px',
-  height:'400px'
+  width: '725px',
+  height:'425px'
 };
 
 export class MapContainer extends Component {
@@ -129,8 +129,12 @@ export class MapContainer extends Component {
               </div>
             </div>
             <div class="row">
-              <div class="filter-container">
-                Filters
+              <div class="filter-container" style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                Filters (Species, Year Range, Element Composition, etc.)
               </div>
             </div>
           </div>
@@ -300,7 +304,18 @@ export class MapContainer extends Component {
             </div>
             <div class="row">
               <div class="downloader-container">
-                Download
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    lineHeight: 3,
+                    margin: 25,
+                  }}
+                  >
+                    <button>
+                      Download Filtered Data as csv
+                    </button>
+                  </div>
               </div>
             </div>
           </div>
@@ -308,7 +323,7 @@ export class MapContainer extends Component {
 
         <div class="footer-container">
           <div class="footer">
-            Footer
+            Color Gradient Key: Blue: low pollution, Yellow: moderate pollution, Red: high pollution
           </div>
         </div>
 
