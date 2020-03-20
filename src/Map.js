@@ -17,18 +17,30 @@ export class MapContainer extends Component {
     super(props);
 
     this.state = {
-      locations: getListCoordinates(),
+      locations: [],
       showingInfoWindow: false,
       activeMarker: {},
       selectedLocation: {},
       moreInfoRedirect: false,
       element: 'None',
       elementContainer: document.getElementById('elements')
-
     }
     this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+
+    getSiteCoordinates().then(json => {
+      const coords = json.data;
+
+      const newCoords = coords.map(coord => ({ SiteCode: coord.SiteCode, latitude: coord.Lat, longitude: coord.Lng }));
+
+      this.setState({
+        locations: newCoords
+      });
+    });
   }
 
   handleChange(event) {
@@ -95,6 +107,7 @@ export class MapContainer extends Component {
     // }
 
     return (
+
       <div>
         <div class="header-container">
           <div class="header">
@@ -422,5 +435,22 @@ export default GoogleApiWrapper({
   apiKey: 'AIzaSyBI1RiUMsjw1UhbRc8wKWUt7VphFjvyNkA'
 })(MapContainer);
 
+function getSiteCoordinates() {
+  return fetch('https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites?LatLngOnly=true')
+    .then(response => response.json())
+    .catch(error => console.error(error));
+}
+
+function getAllData() {
+  return fetch('https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites')
+    .then(response => response.json())
+    .catch(error => console.error(error));
+}
+
+function getSiteData(siteCode) {
+  return fetch(`https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites?SiteCode=${siteCode}`)
+    .then(response => response.json())
+    .catch(error => console.error(error));
+}
 
 // Map Code Ends Here
