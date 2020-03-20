@@ -91,20 +91,50 @@ img {
     height: auto;
 }
 
-#sample-1520 {
+#sample-1 {
     border: 3px solid red;
 }
-#sample-1521 {
+#sample-2 {
     border: 3px solid blue;
 }
-#sample-1522 {
+#sample-3 {
     border: 3px solid yellow;
 }
-.collapsible {
+#sample-4 {
+    border: 3px solid orange;
+}
+#sample-5 {
+    border: 3px solid hotpink;
+}
+#sample-6 {
+    border: 3px solid #a031bc;
+}
+#sample-7 {
+    border: 3px solid lightsalmon;
+}
+#sample-8 {
+    border: 3px solid lightseagreen;
+}
+#sample-9 {
+    border: 3px solid cyan;
+}
+#sample-10 {
+    border: 3px solid cornflowerblue;
+}
+#sample-11 {
+    border: 3px solid lightpink;
+}
+#sample-12 {
+    border: 3px solid lightgreen;
+}
+
+
+
+.Collapsible {
     background-color: #eee;
     color: #444;
     cursor: pointer;
-    padding: 18px;
+    padding: 3px;
     width: 100%;
     border: none;
     text-align: left;
@@ -113,8 +143,12 @@ img {
   }
 
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-  .active, .collapsible:hover {
+  .active, .Collapsible:hover {
     background-color: #ccc;
+  }
+
+  .content {
+    background-color: white;
   }
 
   /* Style the collapsible content. Note: hidden by default */
@@ -124,6 +158,7 @@ img {
     overflow: hidden;
     background-color: #f1f1f1;
   }
+
 
 @media only screen and (min-width: 961px) {
     .header, .footer {
