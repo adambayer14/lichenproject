@@ -26,9 +26,7 @@ ReactDOM.render(
       <Map/>
 
     </Route>
-    <Route path="/moreinfo" exact>
-      <MoreInfoRender/>
-    </Route>
+    <Route path="/moreinfo/:sitecode" exact component = {MoreInfoRender}></Route>
   </Router>,
   document.getElementById('root'));
 
