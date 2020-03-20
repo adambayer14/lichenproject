@@ -79,7 +79,7 @@ export class MapContainer extends Component {
        lng: locations.longitude
      }}
      onClick={this.onMarkerClick}
-     name={locations.latitude}
+     name={locations.SiteCode}
      />
     })
   }
@@ -87,8 +87,9 @@ export class MapContainer extends Component {
   handleMoreInfoClick() {
     //alert(`You are leaving.`);
     //window.location.reload();
+    let moreInfoUrl = '/moreinfo/' + this.state.activeMarker.name
     this.setState({moreInfoRedirect: true});
-    window.open('/moreinfo');
+    window.open(moreInfoUrl);
   }
 
   render() {
@@ -412,24 +413,6 @@ export class MapContainer extends Component {
   }
 }
 
-function getListCoordinates() {
-  var listCoords = [{latitude: 40.44035,	longitude: -111.7203},
-      {latitude: 40.05128,	longitude: -111.5377},
-      {latitude: 40.51708, longitude: -111.661},
-      {latitude: 39.90448, longitude: -111.7343},
-      {latitude: 40.18558,	longitude: -111.5654},
-      {latitude: 40.26498,	longitude: -111.6207},
-      {latitude: 39.80445,	longitude: -111.6944},
-      {latitude: 40.48597,	longitude: -111.7057},
-      {latitude: 40.10977,	longitude: -111.4343},
-      {latitude: 40.3294,	longitude: -111.5293},
-      {latitude: 40.26498,	longitude: -111.6207},
-      {latitude: 39.75353,	longitude: -111.8163},
-      {latitude: 40.3294,	longitude: -111.5293},
-      {latitude: 40.18558,	longitude: -111.5654}
-      ]
-  return listCoords
-}
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBI1RiUMsjw1UhbRc8wKWUt7VphFjvyNkA'

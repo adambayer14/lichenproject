@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import Collapsible from 'react-collapsible';
+import axios from 'axios';
 
 
 // More info page
@@ -20,24 +21,25 @@ class MoreInfoRender extends React.Component {
 
 
   render() {
-
+    let activeSite = this.props.match.params.sitecode
     let htmlContainer;
     htmlContainer = renderSidePanel();
+    let percentBoxPlot = "/images/" + activeSite + "_percent.jpeg"
+    let ppmBoxPlot = "/images/" + activeSite + "_ppm.jpeg"
 
     return(
       <div class="more-info-container">
         <div class="header-container">
           <div class="header">
-            Info for Site Number: ACCTP_1
+            Info for Site Number: {activeSite}
           </div>
         </div>
 
         <div class="more-info-content">
 
           <div class="info-selector-row">
-            Info Selector Row
             <div class="site-info">
-            <h3>Site ID: ACCTP_1</h3>
+            <h3>Site ID: {activeSite}</h3>
                 <div>
                   {htmlContainer}
                 </div>
@@ -51,14 +53,13 @@ class MoreInfoRender extends React.Component {
             </div>
           </div>
           <div class="info-display-row">
-            Info Display Row
             <div class="graph-container">
               <div class="percentage">
-                <img className="sitepercent" src="/images/ACCTP_1_percent.jpeg" />
+                <img className="sitepercent" src={percentBoxPlot} />
               </div>
               <hr></hr>
               <div class="ppm">
-                <img className="siteppm" src="/images/ACCTP_1_ppm.jpeg" />
+                <img className="siteppm" src={ppmBoxPlot} />
               </div>
             </div>
           </div>
@@ -157,3 +158,10 @@ function renderSidePanel() {
 
 
 export {MoreInfoRender}
+
+
+function getSiteData(siteCode) {
+  return fetch(`https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites?SiteCode=${siteCode}`)
+    .then(response => response.json())
+    .catch(error => console.error(error));
+}
