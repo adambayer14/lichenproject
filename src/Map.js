@@ -431,7 +431,7 @@ function getAllData() {
 }
 
 function getSiteData(siteCode) {
-  return fetch(`https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites?SiteCode=${siteCode}`)
+  return fetch(`https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites/${siteCode}`)
     .then(response => response.json())
     .catch(error => console.error(error));
 }
