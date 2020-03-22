@@ -12,6 +12,8 @@ let mapStyles = {
   height:'425px'
 };
 
+const SERVER_ROOT = 'https://mne5wp8j5m.execute-api.us-west-2.amazonaws.com';
+
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -419,19 +421,19 @@ export default GoogleApiWrapper({
 })(MapContainer);
 
 function getSiteCoordinates() {
-  return fetch('https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites?LatLngOnly=true')
+  return fetch(`${SERVER_ROOT}/dev/sites?LatLngOnly=true`)
     .then(response => response.json())
     .catch(error => console.error(error));
 }
 
 function getAllData() {
-  return fetch('https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites')
+  return fetch(`${SERVER_ROOT}/dev/sites`)
     .then(response => response.json())
     .catch(error => console.error(error));
 }
 
 function getSiteData(siteCode) {
-  return fetch(`https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites/${siteCode}`)
+  return fetch(`${SERVER_ROOT}/dev/sites/${siteCode}`)
     .then(response => response.json())
     .catch(error => console.error(error));
 }
