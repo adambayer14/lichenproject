@@ -6,6 +6,8 @@ import InfoWindowEx from "./InfoWindowEx"
 //import Route from 'react-router-dom/Route';
 //import { MoreInfoRender } from './MoreInfo';
 import { Container, Row, Col } from 'reactstrap';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 let mapStyles = {
   width: '725px',
@@ -25,7 +27,11 @@ export class MapContainer extends Component {
       selectedLocation: {},
       moreInfoRedirect: false,
       element: 'None',
-      elementContainer: document.getElementById('elements')
+      elementContainer: document.getElementById('elements'),
+      elementList: ["Ca", "K", "Mg", "N", "P", "S", "Al", "As", "B", "Ba", "Cd",
+       "Co", "Cr", "Cu", "Fe", "Mn", "Mo", "Na", "Ni", "Pb", "Se", "Si", "Sr",
+       "Ti", "V", "Zn", "Cl", "Br", "Rb", "Cu.Zn", "Fe.Ti", "F"],
+
     }
     this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -109,6 +115,7 @@ export class MapContainer extends Component {
     //   );
     // }
 
+
     return (
 
       <div>
@@ -150,7 +157,9 @@ export class MapContainer extends Component {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                Filters (Species, Year Range, Element Composition, etc.)
+
+                <Dropdown options={this.state.elementList} onChange={this._onSelect} value={this.state.elementList[0]} dropup placeholder="Select an element"  />
+
               </div>
             </div>
           </div>
