@@ -1,29 +1,46 @@
 import React, { Component } from 'react';
-import {
-  CollapsibleComponent,
-  CollapsibleHead,
-  CollapsibleContent
-} from "react-collapsible-component";
-import { Container, Row, Col } from 'reactstrap';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Link} from 'react-router-dom';
-import Route from 'react-router-dom/Route';
+// import {
+//   CollapsibleComponent,
+//   CollapsibleHead,
+//   CollapsibleContent
+// } from "react-collapsible-component";
+//import { Container, Row, Col } from 'reactstrap';
+import { Link} from 'react-router-dom';
+//import Route from 'react-router-dom/Route';
 import Collapsible from 'react-collapsible';
-import axios from 'axios';
+//import axios from 'axios';
+
+const SERVER_ROOT = 'https://mne5wp8j5m.execute-api.us-west-2.amazonaws.com';
 
 
 // More info page
 
 class MoreInfoRender extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state = {
+      data: [],
+    }
+  }
+
+  componentDidMount() {
+
+    getSiteData(this.props.match.params.sitecode).then(json => {
+      const siteData = json.data;
+
+      this.setState({
+        data: siteData
+      });
+    });
+
   }
 
 
   render() {
     let activeSite = this.props.match.params.sitecode
     let htmlContainer;
-    htmlContainer = renderSidePanel();
+    htmlContainer = renderSidePanel(this.state.data);
     let percentBoxPlot = "/images/" + activeSite + "_percent.jpeg"
     let ppmBoxPlot = "/images/" + activeSite + "_ppm.jpeg"
 
@@ -49,17 +66,26 @@ class MoreInfoRender extends React.Component {
             </div>
             <br></br>
             <div class="graph-download">
-              <button>Download Graph</button>
+              <button>
+                <Link class="graph-link" to={percentBoxPlot} target="_blank" download>Download Percent Graph</Link>
+              </button>
             </div>
+            <br></br>
+            <div class="graph-download">
+              <button>
+                <Link class="graph-link" to={ppmBoxPlot} target="_blank" download>Download ppm Graph</Link>
+              </button>
+            </div>
+            <br></br>
           </div>
           <div class="info-display-row">
             <div class="graph-container">
               <div class="percentage">
-                <img className="sitepercent" src={percentBoxPlot} />
+                <img className="sitepercent" src={percentBoxPlot} alt="Error Displaying Graph" />
               </div>
               <hr></hr>
               <div class="ppm">
-                <img className="siteppm" src={ppmBoxPlot} />
+                <img className="siteppm" src={ppmBoxPlot} alt="Error Displaying Graph" />
               </div>
             </div>
           </div>
@@ -68,7 +94,7 @@ class MoreInfoRender extends React.Component {
 
         <div class="footer-container">
           <div class="footer">
-            Footer
+            Note: Box Plots are based off of all elemental analysis samples
           </div>
         </div>
 
@@ -92,68 +118,93 @@ class MoreInfoRender extends React.Component {
 
 }
 
-function renderSidePanel() {
 
-  let val = 10;
-  let myList = [];
-  let idList = ["sample-1520", "sample-1521", "sample-1522"]
-  let sampleNum = ["1520", "1521", "1522"]
-  let speciesList = ["xanthoparmelia", "usnea", "usnea"]
 
-  for (let i = 0; i < val; i++) {
-    let idNum = i + 1
-    let myId = "sample-" + idNum
+function renderSidePanel(activeSiteData) {
+
+  if (activeSiteData.length === 0) {
+    return
+  }
+
+  var myList = [];
+  var allEAData = activeSiteData.EAData;
+
+
+  var siteIDToIndex = {};
+  for (let i = 0; i < allEAData.length; i++) {
+    siteIDToIndex[allEAData[i].Sample] = i;
+  }
+
+
+
+  var sortedSiteIndexDict = Object.keys(siteIDToIndex).sort();
+
+  var j = 1;
+
+
+
+  for (var i = 0; i < sortedSiteIndexDict.length; i++) {
+
+    let myId = "sample-" + j
+
+    var currentSampleDict = allEAData[siteIDToIndex[sortedSiteIndexDict[i]]]
 
     myList.push(
       <div class="sample-info" id={myId}>
-        Sample #: "Test"
+        Sample #: {sortedSiteIndexDict[i]}
         <br></br>
-        Species: "Test"
+        Species: {currentSampleDict["Species"]}
         <br></br>
-        Year: 2015
+        Year Collected: {currentSampleDict["ycollect"]}
         <br></br>
-        Analysis Method: ICP
+        Year Published: {currentSampleDict["ypublish"]}
+        <br></br>
+        Analysis Method: {currentSampleDict["tech"]}
           <Collapsible trigger='View Numerical Data'>
                 <div class='content'>
-                    Ca: 1.89<br/>
-                    K:  0.32<br/>
-                    Mg: 0.07<br/>
-                    N:  0.84<br/>
-                    P:  0.1<br/>
-                    S:  0.08<br/>
-                    Al: 1667<br/>
-                    As: 1.37<br/>
-                    B:  0.12<br/>
-                    Ba: 14.3<br/>
-                    Cd: 0.59<br/>
-                    Co: 0.87<br/>
-                    Cr: 3.52<br/>
-                    Cu: 13.6<br/>
-                    Fe: 1836<br/>
-                    Mn: 53.5<br/>
-                    Mo: 0.61<br/>
-                    Na: 442<br/>
-                    Ni: 2.1<br/>
-                    Pb: 9.8<br/>
-                    Se: 0.09<br/>
-                    Si: 484.7<br/>
-                    Sr: 23.3<br/>
-                    Ti: 164<br/>
-                    V:  0.005<br/>
-                    Zn: 28.9<br/>
-                    Cl: NA<br/>
-                    Br: NA<br/>
-                    Rb: NA<br/>
-                    Cu.Zn:  NA<br/>
-                    Fe.Ti:  NA<br/>
-                    F:  NA<br/>
+                    Ca: {currentSampleDict["CaPERC"]}%<br/>
+                    K:  {currentSampleDict["KPERC"]}%<br/>
+                    Mg: {currentSampleDict["MgPERC"]}%<br/>
+                    N:  {currentSampleDict["NPERC"]}%<br/>
+                    P:  {currentSampleDict["PPERC"]}%<br/>
+                    S:  {currentSampleDict["SPERC"]}%<br/>
+                    Al: {currentSampleDict["Al"]}<br/>
+                    As: {currentSampleDict["As"]}<br/>
+                    B:  {currentSampleDict["B"]}<br/>
+                    Ba: {currentSampleDict["Ba"]}<br/>
+                    Cd: {currentSampleDict["Cd"]}<br/>
+                    Co: {currentSampleDict["Co"]}<br/>
+                    Cr: {currentSampleDict["Cr"]}<br/>
+                    Cu: {currentSampleDict["Cu"]}<br/>
+                    Fe: {currentSampleDict["Fe"]}<br/>
+                    Mn: {currentSampleDict["Mn"]}<br/>
+                    Mo: {currentSampleDict["Mo"]}<br/>
+                    Na: {currentSampleDict["Na"]}<br/>
+                    Ni: {currentSampleDict["Ni"]}<br/>
+                    Pb: {currentSampleDict["Pb"]}<br/>
+                    Se: {currentSampleDict["Se"]}<br/>
+                    Si: {currentSampleDict["Si"]}<br/>
+                    Sr: {currentSampleDict["Sr"]}<br/>
+                    Ti: {currentSampleDict["Ti"]}<br/>
+                    V:  {currentSampleDict["V"]}<br/>
+                    Zn: {currentSampleDict["Zn"]}<br/>
+                    Cl: {currentSampleDict["Cl"]}<br/>
+                    Br: {currentSampleDict["Br"]}<br/>
+                    Rb: {currentSampleDict["Rb"]}<br/>
+                  Cu.Zn:  {currentSampleDict["Cu_Zn"]}<br/>
+                Fe.Ti:  {currentSampleDict["Fe_Ti"]}<br/>
+                    F:  {currentSampleDict["F"]}<br/>
                 </div>
           </Collapsible>
         </div>
       );
+    j++;
   }
 
   return myList
+
+
+
 }
 
 
@@ -161,7 +212,7 @@ export {MoreInfoRender}
 
 
 function getSiteData(siteCode) {
-  return fetch(`https://kt68o8tnw3.execute-api.us-west-2.amazonaws.com/dev/sites?SiteCode=${siteCode}`)
+  return fetch(`${SERVER_ROOT}/dev/sites/${siteCode}`)
     .then(response => response.json())
     .catch(error => console.error(error));
 }
