@@ -91,6 +91,10 @@ img {
     height: auto;
 }
 
+.graph-link {
+  color: black;
+}
+
 #sample-1 {
     border: 3px solid red;
 }

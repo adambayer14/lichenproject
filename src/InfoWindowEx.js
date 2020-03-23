@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import {  InfoWindow } from 'google-maps-react';
 
 export default class InfoWindowEx extends Component {
   constructor(props) {

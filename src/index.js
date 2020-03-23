@@ -1,24 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Map from './Map';
-import {RadioColorGradient} from './RadioButtons'
+//import {RadioColorGradient} from './RadioButtons'
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
-import { BrowserRouter as Router, Link} from 'react-router-dom';
+import { BrowserRouter as Router} from 'react-router-dom';
 import Route from 'react-router-dom/Route';
 import { MoreInfoRender } from './MoreInfo';
 
-// ReactDOM.render(
-//   <Router>
-//     <Route path="/" exact>
-//       <HomePageRender
-//     </Route>
-//     <Route path="/moreinfo" exact>
-//       <MoreInfoRender/>
-//     </Route>
-//   </Router>,
-//   document.getElementById('root'));
-
+//npm i react-router@4.3.1
 
 ReactDOM.render(
   <Router>

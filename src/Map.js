@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
-import { Redirect } from "react-router-dom";
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+//import { Redirect } from "react-router-dom";
 import InfoWindowEx from "./InfoWindowEx"
-import { BrowserRouter as Router, Link} from 'react-router-dom';
-import Route from 'react-router-dom/Route';
-import { MoreInfoRender } from './MoreInfo';
+//import { BrowserRouter as Router, Link} from 'react-router-dom';
+//import Route from 'react-router-dom/Route';
+//import { MoreInfoRender } from './MoreInfo';
 import { Container, Row, Col } from 'reactstrap';
 
 let mapStyles = {
