@@ -39,8 +39,10 @@ class MoreInfoRender extends React.Component {
 
   render() {
     let activeSite = this.props.match.params.sitecode
-    let htmlContainer;
-    htmlContainer = renderSidePanel(this.state.data);
+    let htmlSideContainer;
+    htmlSideContainer = renderSidePanel(this.state.data);
+    let htmlDescriptionContainer;
+    htmlDescriptionContainer = renderSiteDescription(this.state.data)
     let percentBoxPlot = "/images/" + activeSite + "_percent.jpeg"
     let ppmBoxPlot = "/images/" + activeSite + "_ppm.jpeg"
 
@@ -58,7 +60,7 @@ class MoreInfoRender extends React.Component {
             <div class="site-info">
             <h3>Site ID: {activeSite}</h3>
                 <div>
-                  {htmlContainer}
+                  {htmlSideContainer}
                 </div>
             </div>
             <div class="site-info-download">
@@ -80,6 +82,9 @@ class MoreInfoRender extends React.Component {
           </div>
           <div class="info-display-row">
             <div class="graph-container">
+              <div>
+                {htmlDescriptionContainer}
+              </div>
               <div class="percentage">
                 <img className="sitepercent" src={percentBoxPlot} alt="Error Displaying Graph" />
               </div>
@@ -203,7 +208,42 @@ function renderSidePanel(activeSiteData) {
 
   return myList
 
+}
 
+function renderSiteDescription(siteData) {
+
+  var endHTML = [];
+
+  if (siteData.length === 0) {
+    return
+  }
+ endHTML.push(
+   <div class="site_description">
+      <div class="description_head">
+          Site Description:<br/>
+      </div>
+      <div>
+        Country: {siteData.Country};
+        State: {siteData.State};
+        County: {siteData.County};
+        Collection Data: {siteData.CollectionDate}
+        <br/>
+        USNF/NRA/NP: {siteData.USNF_NRA_NP};
+        Wilderness Area/unit: {siteData.WildernessArea}
+        <br/>
+        Detailed Locality Data: {siteData.DetailedLocalityData}.
+        <br/>
+        Lat: {siteData.Lat};
+        Long: {siteData.Lng};
+        Elevation (meters): {siteData.Elevation}
+        <br/>
+      </div>
+    </div>
+  );
+
+  console.log(siteData)
+
+  return endHTML;
 
 }
 
