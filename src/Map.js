@@ -6,8 +6,9 @@ import InfoWindowEx from "./InfoWindowEx"
 //import Route from 'react-router-dom/Route';
 //import { MoreInfoRender } from './MoreInfo';
 import { Container, Row, Col } from 'reactstrap';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import Dropdown from 'react-bootstrap/Dropdown'
+
+
 
 let mapStyles = {
   width: '725px',
@@ -28,14 +29,16 @@ export class MapContainer extends Component {
       moreInfoRedirect: false,
       element: 'None',
       elementContainer: document.getElementById('elements'),
-      elementList: ["Ca", "K", "Mg", "N", "P", "S", "Al", "As", "B", "Ba", "Cd",
-       "Co", "Cr", "Cu", "Fe", "Mn", "Mo", "Na", "Ni", "Pb", "Se", "Si", "Sr",
-       "Ti", "V", "Zn", "Cl", "Br", "Rb", "Cu.Zn", "Fe.Ti", "F"],
+      currentElementFilter: "None",
+      currentSpeciesFilter: "None",
+      minElement: '',
+      maxElement: '',
 
     }
     this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFilterClick = this.handleFilterClick.bind(this);
   }
 
   componentDidMount() {
@@ -100,21 +103,32 @@ export class MapContainer extends Component {
     window.open(moreInfoUrl);
   }
 
+  handleFilterClick() {
+    alert(`Filtering ${this.state.currentElementFilter}, ${this.state.currentSpeciesFilter} and
+      ${this.state.minElement} to ${this.state.maxElement}!`);
+  }
+
+  handleSelect(evt) {
+    this.setState({
+      currentElementFilter: evt
+    });
+  }
+
+  handleSelectSpecies(evt) {
+    this.setState({
+      currentSpeciesFilter: evt
+    });
+  }
+
+  handleMinChange(event) {
+    this.setState({minElement: event.target.value})
+  }
+  handleMaxChange(event) {
+    this.setState({maxElement: event.target.value})
+  }
+
+
   render() {
-
-    // if (this.state.moreInfoRedirect) {
-    //   return (
-    //   //   <Router>
-    //   //     <Route path="/" exact></Route>
-    //   //     <Route path="/moreinfo" exact component={MoreInfoRender}/>
-    //   //     <Redirect push to="/moreinfo" />
-    //   //   </Router>
-    //
-    //
-    //
-    //   );
-    // }
-
 
     return (
 
@@ -152,13 +166,89 @@ export class MapContainer extends Component {
               </div>
             </div>
             <div class="row">
-              <div class="filter-container" style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}>
+              <div class="filter-container" align="center">
+                <Row>
+                  <Col>
+                  <Dropdown drop="up">
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      Choose Species
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu bsPrefix="dropdown-menu species_dropdown">
+                      <Dropdown.Item eventKey="letharia" onSelect={this.handleSelectSpecies.bind(this)}>letharia</Dropdown.Item>
+                      <Dropdown.Item eventKey="rhizoplaca" onSelect={this.handleSelectSpecies.bind(this)}>rhizoplaca</Dropdown.Item>
+                      <Dropdown.Item eventKey="usnea" onSelect={this.handleSelectSpecies.bind(this)}>usnea</Dropdown.Item>
+                      <Dropdown.Item eventKey="xanthomendoza" onSelect={this.handleSelectSpecies.bind(this)}>xanthomendoza</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Col>
+                <Col>
 
-                <Dropdown options={this.state.elementList} onChange={this._onSelect} value={this.state.elementList[0]} dropup placeholder="Select an element"  />
+                  <Dropdown drop="up">
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                      Choose Element
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu bsPrefix="dropdown-menu element_dropdown">
+                      <Dropdown.Item eventKey="CaPERC" onSelect={this.handleSelect.bind(this)}>Ca</Dropdown.Item>
+                      <Dropdown.Item eventKey="KPERC" onSelect={this.handleSelect.bind(this)}>K</Dropdown.Item>
+                      <Dropdown.Item eventKey="MgPERC" onSelect={this.handleSelect.bind(this)}>Mg</Dropdown.Item>
+                      <Dropdown.Item eventKey="NPERC" onSelect={this.handleSelect.bind(this)}>N</Dropdown.Item>
+                      <Dropdown.Item eventKey="PPERC" onSelect={this.handleSelect.bind(this)}>P</Dropdown.Item>
+                      <Dropdown.Item eventKey="SPERC" onSelect={this.handleSelect.bind(this)}>S</Dropdown.Item>
+                      <Dropdown.Item eventKey="Al" onSelect={this.handleSelect.bind(this)}>Al</Dropdown.Item>
+                      <Dropdown.Item eventKey="As" onSelect={this.handleSelect.bind(this)}>As</Dropdown.Item>
+                      <Dropdown.Item eventKey="B" onSelect={this.handleSelect.bind(this)}>B</Dropdown.Item>
+                      <Dropdown.Item eventKey="Ba" onSelect={this.handleSelect.bind(this)}>Ba</Dropdown.Item>
+                      <Dropdown.Item eventKey="Cd" onSelect={this.handleSelect.bind(this)}>Cd</Dropdown.Item>
+                      <Dropdown.Item eventKey="Co" onSelect={this.handleSelect.bind(this)}>Co</Dropdown.Item>
+                      <Dropdown.Item eventKey="Cr" onSelect={this.handleSelect.bind(this)}>Cr</Dropdown.Item>
+                      <Dropdown.Item eventKey="Cu" onSelect={this.handleSelect.bind(this)}>Cu</Dropdown.Item>
+                      <Dropdown.Item eventKey="Fe" onSelect={this.handleSelect.bind(this)}>Fe</Dropdown.Item>
+                      <Dropdown.Item eventKey="Mn" onSelect={this.handleSelect.bind(this)}>Mn</Dropdown.Item>
+                      <Dropdown.Item eventKey="Mo" onSelect={this.handleSelect.bind(this)}>Mo</Dropdown.Item>
+                      <Dropdown.Item eventKey="Na" onSelect={this.handleSelect.bind(this)}>Na</Dropdown.Item>
+                      <Dropdown.Item eventKey="Ni" onSelect={this.handleSelect.bind(this)}>Ni</Dropdown.Item>
+                      <Dropdown.Item eventKey="Pb" onSelect={this.handleSelect.bind(this)}>Pb</Dropdown.Item>
+                      <Dropdown.Item eventKey="Se" onSelect={this.handleSelect.bind(this)}>Se</Dropdown.Item>
+                      <Dropdown.Item eventKey="Si" onSelect={this.handleSelect.bind(this)}>Si</Dropdown.Item>
+                      <Dropdown.Item eventKey="Sr" onSelect={this.handleSelect.bind(this)}>Sr</Dropdown.Item>
+                      <Dropdown.Item eventKey="Ti" onSelect={this.handleSelect.bind(this)}>Ti</Dropdown.Item>
+                      <Dropdown.Item eventKey="V" onSelect={this.handleSelect.bind(this)}>V</Dropdown.Item>
+                      <Dropdown.Item eventKey="Zn" onSelect={this.handleSelect.bind(this)}>Zn</Dropdown.Item>
+                      <Dropdown.Item eventKey="Cl" onSelect={this.handleSelect.bind(this)}>Cl</Dropdown.Item>
+                      <Dropdown.Item eventKey="Br" onSelect={this.handleSelect.bind(this)}>Br</Dropdown.Item>
+                      <Dropdown.Item eventKey="Rb" onSelect={this.handleSelect.bind(this)}>Rb</Dropdown.Item>
+                      <Dropdown.Item eventKey="Cu.Zn" onSelect={this.handleSelect.bind(this)}>Cu.Zn</Dropdown.Item>
+                      <Dropdown.Item eventKey="Fe.Ti" onSelect={this.handleSelect.bind(this)}>Fe.Ti</Dropdown.Item>
+                      <Dropdown.Item eventKey="F" onSelect={this.handleSelect.bind(this)}>F</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Col>
+
+                </Row>
+                <Row>
+                  <Col class="text_background">
+                    Species Filter: {this.state.currentSpeciesFilter}
+                  </Col>
+                  <Col>
+                    Element Filter: {this.state.currentElementFilter}
+                  </Col>
+                  <Col>
+                      Element range:
+                      <input type="text" name="min" value={this.state.minElement}
+                        onChange={this.handleMinChange.bind(this)}
+                        style={{ width: "40px" }}/>
+                      to
+                      <input type="text" name="max" value={this.state.maxElement}
+                        onChange={this.handleMaxChange.bind(this)}
+                        style={{ width: "40px" }}/>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <button onClick={this.handleFilterClick}>Apply Selected Filters</button>
+                  </Col>
+                </Row>
+
 
               </div>
             </div>

@@ -142,7 +142,19 @@ img {
     border: 3px solid lightgreen;
 }
 
+.dropdown-menu {
 
+}
+
+.element_dropdown{
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.species_dropdown{
+  height: 150px;
+  overflow-y: scroll;
+}
 
 .Collapsible {
     background-color: #eee;
@@ -206,7 +218,7 @@ img {
     }
 
     .filter-container {
-        height: 100px;
+        height: 140px;
         width: 725px;
     }
     #sidebar {
@@ -220,7 +232,7 @@ img {
     }
     .downloader-container {
         width: 100%;
-        height: 100px;
+        height: 140px;
 
     }
     .footer-container {
