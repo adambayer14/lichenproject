@@ -33,7 +33,20 @@ export class MapContainer extends Component {
       currentSpeciesFilter: "None",
       minElement: '',
       maxElement: '',
-
+      blueMax: {"CaPERC": 2.445, "KPERC": .52, "MgPERC": .13,
+        "NPERC": 1.46, "PPERC": .14, "SPERC": .129, "Al": 2100, "As": 3.2,
+        "B": 14.15, "Ba": 70, "Cd": .795, "Co": 4.38, "Cr": 5.998, "Cu": 9.49,
+        "Fe": 16.21, "Mn": 113, "Mo": 1.07, "Na": 231.8, "Ni": 3.44,
+        "Pb": 15.4, "Se": 1.93, "Si": 293, "Sr": 45.347, "Ti": 229, "V": 8.3,
+        "Zn": 53.98, "Cl": 1131.75, "Br": 12.2, "Rb": 15.5, "Cu.Zn": .13,
+         "Fe.Ti": 16.21, "F": 160},
+      yellowMax: {"CaPERC": 15.083, "KPERC": 2.517, "MgPERC": .9738,
+        "NPERC": 7.16, "PPERC": 1.02, "SPERC": .7, "Al": 33000, "As": 63,
+        "B": 56.2, "Ba": 646, "Cd": 9.04, "Co": 100, "Cr": 48, "Cu": 837,
+        "Fe": 98.44, "Mn": 2800, "Mo": 500, "Na": 1380, "Ni": 110,
+        "Pb": 483, "Se": 25, "Si": 1890, "Sr": 625, "Ti": 3700, "V": 653,
+        "Zn": 517, "Cl": 5823, "Br": 106, "Rb": 77, "Cu.Zn": .222,
+         "Fe.Ti": 98.44, "F": 260},
     }
     this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -60,10 +73,25 @@ export class MapContainer extends Component {
     });
   }
 
-  // Don't need this in the end. Can just update map with handleChange()
   handleSubmit(event) {
+    this.setState({locations: []});
+    if (this.state.element === "None") {
+      this.componentDidMount();
+      return
+    }
+
+    for (var i = 0; i < this.state.locations.length; i++) {
+      this.getSiteData(this.state.locations[i].SiteCode)
+    }
+
     alert(`You are choosing the element ${this.state.element}.`);
   }
+
+  //Get each site data
+  getSiteData(siteID) {
+
+  }
+
 
   //need to change this for our stuff
   onMarkerClick = (props, marker, e) => this.setState({
