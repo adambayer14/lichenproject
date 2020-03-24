@@ -15,6 +15,16 @@ let mapStyles = {
   height:'425px'
 };
 
+let blueIcon = {
+  url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+}
+let yellowIcon = {
+  url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"
+}
+let redIcon = {
+  url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+}
+
 const SERVER_ROOT = 'https://mne5wp8j5m.execute-api.us-west-2.amazonaws.com';
 
 export class MapContainer extends Component {
@@ -33,20 +43,20 @@ export class MapContainer extends Component {
       currentSpeciesFilter: "None",
       minElement: '',
       maxElement: '',
-      blueMax: {"CaPERC": 2.445, "KPERC": .52, "MgPERC": .13,
+      blueMax: {"CaPERC": 2.455, "KPERC": .52, "MgPERC": .13,
         "NPERC": 1.46, "PPERC": .14, "SPERC": .129, "Al": 2100, "As": 3.2,
         "B": 14.15, "Ba": 70, "Cd": .795, "Co": 4.38, "Cr": 5.998, "Cu": 9.49,
-        "Fe": 16.21, "Mn": 113, "Mo": 1.07, "Na": 231.8, "Ni": 3.44,
-        "Pb": 15.4, "Se": 1.93, "Si": 293, "Sr": 45.347, "Ti": 229, "V": 8.3,
-        "Zn": 53.98, "Cl": 1131.75, "Br": 12.2, "Rb": 15.5, "Cu.Zn": .13,
+        "Fe": 2581.5, "Mn": 113, "Mo": 1.07, "Na": 231.8, "Ni": 3.44,
+        "Pb": 15.4, "Se": 1.93, "Si": 1890, "Sr": 45.347, "Ti": 229, "V": 8.3,
+        "Zn": 53.98, "Cl": 1131.75, "Br": 12.2, "Rb": 15.5, "Cu.Zn": .222,
          "Fe.Ti": 16.21, "F": 160},
-      yellowMax: {"CaPERC": 15.083, "KPERC": 2.517, "MgPERC": .9738,
-        "NPERC": 7.16, "PPERC": 1.02, "SPERC": .7, "Al": 33000, "As": 63,
-        "B": 56.2, "Ba": 646, "Cd": 9.04, "Co": 100, "Cr": 48, "Cu": 837,
-        "Fe": 98.44, "Mn": 2800, "Mo": 500, "Na": 1380, "Ni": 110,
-        "Pb": 483, "Se": 25, "Si": 1890, "Sr": 625, "Ti": 3700, "V": 653,
-        "Zn": 517, "Cl": 5823, "Br": 106, "Rb": 77, "Cu.Zn": .222,
-         "Fe.Ti": 98.44, "F": 260},
+      yellowMax: {"CaPERC": 4.847, "KPERC": .833, "MgPERC": .213,
+        "NPERC": 2.206, "PPERC": .233, "SPERC": .206, "Al": 4496, "As": 5.73,
+        "B": 27, "Ba": 130, "Cd": 1.5, "Co": 10.74, "Cr": 10.44, "Cu": 21.34,
+        "Fe": 5133, "Mn": 203, "Mo": 10.7, "Na": 459.5, "Ni": 6.54,
+        "Pb": 31.3, "Se": 4.04, "Si": 6258, "Sr": 86.3, "Ti": 493, "V": 18.3,
+        "Zn": 90.5, "Cl": 2314, "Br": 21.7, "Rb": 27.3, "Cu.Zn": 18.6,
+         "Fe.Ti": 28.8, "F": 286},
     }
     this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -59,7 +69,7 @@ export class MapContainer extends Component {
     getSiteCoordinates().then(json => {
       const coords = json.data;
 
-      const newCoords = coords.map(coord => ({ SiteCode: coord.SiteCode, latitude: coord.Lat, longitude: coord.Lng }));
+      const newCoords = coords.map(coord => ({ SiteCode: coord.SiteCode, latitude: coord.Lat, longitude: coord.Lng, iconColor: blueIcon }));
 
       this.setState({
         locations: newCoords
@@ -74,22 +84,76 @@ export class MapContainer extends Component {
   }
 
   handleSubmit(event) {
-    this.setState({locations: []});
+
+    //Return all markers back to blue
+    for (var i = 0; i < this.state.locations.length; i++) {
+      this.state.locations[i]["iconColor"] = blueIcon;
+    }
+
     if (this.state.element === "None") {
-      this.componentDidMount();
-      return
+      setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},1000);
+      return;
     }
 
     for (var i = 0; i < this.state.locations.length; i++) {
-      this.getSiteData(this.state.locations[i].SiteCode)
+      this.assignSiteColor(this.state.locations[i].SiteCode, i)
     }
 
-    alert(`You are choosing the element ${this.state.element}.`);
+    setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
+    //alert(`You are choosing the element ${this.state.element}.`);
   }
 
-  //Get each site data
-  getSiteData(siteID) {
+  //Get each site data and assign new color
+  assignSiteColor(siteID, index) {
+    getSiteData(siteID).then(json => {
+      //We need to check why it's giving so many errors....
+      if (typeof json === 'undefined') {
+        return;
+      }
+      if (typeof json.data === 'undefined') {
+        return;
+      }
+      if (typeof json.data.EAData === 'undefined') {
+        return;
+      }
 
+      const eaData = json.data.EAData;
+
+      if (eaData.length === 0) {
+        return;
+      }
+
+      //Get index of highest sample
+      var siteIDToIndex = {};
+      for (let i = 0; i < eaData.length; i++) {
+        var siteSampleNumber = parseFloat(eaData[i].Sample);
+        siteIDToIndex[siteSampleNumber] = i;
+      }
+
+      var sortedSiteIndexDict = Object.keys(siteIDToIndex);
+
+      var mostRecentSample;
+      for (var i = 0; i < sortedSiteIndexDict.length; i++) {
+        mostRecentSample = eaData[siteIDToIndex[sortedSiteIndexDict[i]]]
+      }
+
+
+      const currElementData = mostRecentSample[this.state.element]
+
+      if (parseFloat(currElementData) < this.state.blueMax[this.state.element]) {
+        this.state.locations[index]["iconColor"] = blueIcon;
+      }
+      else if (parseFloat(currElementData) > this.state.yellowMax[this.state.element]) {
+        this.state.locations[index]["iconColor"] = redIcon;
+        // console.log(siteID)
+        // console.log(parseFloat(currElementData), this.state.yellowMax[this.state.element])
+      }
+      else {
+        this.state.locations[index]["iconColor"] = yellowIcon;
+      }
+      return;
+    });
+    return;
   }
 
 
@@ -112,18 +176,10 @@ export class MapContainer extends Component {
   };
 
   displayMarkers = () => {
-    let blueIcon = {                             
-      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-    }
-    let yellowIcon = {                             
-      url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"                           
-    }
-    let redIcon = {                             
-      url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"                           
-    }
 
     return this.state.locations.map((locations, index) => {
-      return <Marker key={index} id={index} icon={blueIcon} position={{
+      var currentIconColor = locations.iconColor
+      return <Marker key={index} id={index} icon={currentIconColor} position={{
        lat: locations.latitude,
        lng: locations.longitude
      }}
@@ -142,6 +198,8 @@ export class MapContainer extends Component {
   }
 
   handleFilterClick() {
+    //This will clear points on map
+    //this.setState({locations: []});
     alert(`Filtering ${this.state.currentElementFilter}, ${this.state.currentSpeciesFilter} and
       ${this.state.minElement} to ${this.state.maxElement}!`);
   }
@@ -311,31 +369,31 @@ export class MapContainer extends Component {
                       </Row>
                       <Row>
                         <label>
-                          <input type="radio" value="Ca" checked={this.state.element === "Ca"} onChange={this.handleChange} />
+                          <input type="radio" value="CaPERC" checked={this.state.element === "CaPERC"} onChange={this.handleChange} />
                         Ca%
                         </label>
                       </Row>
                       <Row>
                         <label>
-                          <input type="radio" value="K" checked={this.state.element === "K"} onChange={this.handleChange}/>
+                          <input type="radio" value="KPERC" checked={this.state.element === "KPERC"} onChange={this.handleChange}/>
                         K%
                         </label>
                       </Row>
                       <Row>
                         <label>
-                          <input type="radio" value="Mg" checked={this.state.element === "Mg"} onChange={this.handleChange}/>
+                          <input type="radio" value="MgPERC" checked={this.state.element === "MgPERC"} onChange={this.handleChange}/>
                         Mg%
                         </label>
                       </Row>
                       <Row>
                         <label>
-                          <input type="radio" value="N" checked={this.state.element === "N"} onChange={this.handleChange}/>
+                          <input type="radio" value="NPERC" checked={this.state.element === "NPERC"} onChange={this.handleChange}/>
                         N%
                         </label>
                       </Row>
                       <Row>
                         <label>
-                          <input type="radio" value="P" checked={this.state.element === "P"} onChange={this.handleChange}/>
+                          <input type="radio" value="PPERC" checked={this.state.element === "PPERC"} onChange={this.handleChange}/>
                         P%
                         </label>
                       </Row>
@@ -343,7 +401,7 @@ export class MapContainer extends Component {
                     <Col>
                       <Row>
                         <label>
-                          <input type="radio" value="S" checked={this.state.element === "S"} onChange={this.handleChange}/>
+                          <input type="radio" value="SPERC" checked={this.state.element === "SPERC"} onChange={this.handleChange}/>
                         S
                         </label>
                       </Row>
