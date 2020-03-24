@@ -28,7 +28,7 @@ class MoreInfoRender extends React.Component {
 
     getSiteData(this.props.match.params.sitecode).then(json => {
       const siteData = json.data;
-      console.log(siteData);
+      //console.log(siteData);
       this.setState({
         data: siteData
       });
@@ -42,14 +42,14 @@ class MoreInfoRender extends React.Component {
   //           csv += row.join(',');
   //           csv += "\n";
   //   });
-  
+
   //   console.log(csv);
   //   var hiddenElement = document.createElement('a');
   //   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
   //   hiddenElement.target = '_blank';
   //   hiddenElement.download = 'people.csv';
   //   hiddenElement.click();
-  
+
   // }
 
 
@@ -153,12 +153,13 @@ function renderSidePanel(activeSiteData) {
 
   var siteIDToIndex = {};
   for (let i = 0; i < allEAData.length; i++) {
-    siteIDToIndex[allEAData[i].Sample] = i;
+    var siteSampleNumber = parseFloat(allEAData[i].Sample);
+    siteIDToIndex[siteSampleNumber] = i;
   }
 
 
 
-  var sortedSiteIndexDict = Object.keys(siteIDToIndex).sort();
+  var sortedSiteIndexDict = Object.keys(siteIDToIndex);
 
   var j = 1;
 
