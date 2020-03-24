@@ -28,13 +28,29 @@ class MoreInfoRender extends React.Component {
 
     getSiteData(this.props.match.params.sitecode).then(json => {
       const siteData = json.data;
-
+      console.log(siteData);
       this.setState({
         data: siteData
       });
     });
 
   }
+
+  // prepareCSV() {
+  //   var csv = ''//'Name,Title\n';
+  //   this.state.data.forEach(function(row) {
+  //           csv += row.join(',');
+  //           csv += "\n";
+  //   });
+  
+  //   console.log(csv);
+  //   var hiddenElement = document.createElement('a');
+  //   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+  //   hiddenElement.target = '_blank';
+  //   hiddenElement.download = 'people.csv';
+  //   hiddenElement.click();
+  
+  // }
 
 
   render() {

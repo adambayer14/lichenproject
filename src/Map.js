@@ -84,8 +84,18 @@ export class MapContainer extends Component {
   };
 
   displayMarkers = () => {
+    let blueIcon = {                             
+      url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+    }
+    let yellowIcon = {                             
+      url: "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"                           
+    }
+    let redIcon = {                             
+      url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"                           
+    }
+
     return this.state.locations.map((locations, index) => {
-      return <Marker key={index} id={index} position={{
+      return <Marker key={index} id={index} icon={blueIcon} position={{
        lat: locations.latitude,
        lng: locations.longitude
      }}
