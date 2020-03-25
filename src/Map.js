@@ -100,11 +100,10 @@ export class MapContainer extends Component {
     }
 
     setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
-    //alert(`You are choosing the element ${this.state.element}.`);
   }
 
   //Get each site data and assign new color
-  assignSiteColor(siteID, index) {
+  async assignSiteColor(siteID, index) {
     getSiteData(siteID).then(json => {
       //We need to check why it's giving so many errors....
       if (typeof json === 'undefined') {
