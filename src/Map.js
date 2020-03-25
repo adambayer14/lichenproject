@@ -91,7 +91,7 @@ export class MapContainer extends Component {
     }
 
     if (this.state.element === "None") {
-      setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},1000);
+      this.setState({locations: this.state.locations});
       return;
     }
 
@@ -99,11 +99,13 @@ export class MapContainer extends Component {
       this.assignSiteColor(this.state.locations[i].SiteCode, i)
     }
 
-    setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
+    setTimeout(() => {this.setState(() => ({locations: this.state.locations}))}, 3000);
+    alert("Please wait while color gradient applies");
+
   }
 
   //Get each site data and assign new color
-  async assignSiteColor(siteID, index) {
+  assignSiteColor(siteID, index) {
     getSiteData(siteID).then(json => {
       //We need to check why it's giving so many errors....
       if (typeof json === 'undefined') {
@@ -150,6 +152,7 @@ export class MapContainer extends Component {
       else {
         this.state.locations[index]["iconColor"] = yellowIcon;
       }
+
       return;
     });
     return;
