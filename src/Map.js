@@ -102,7 +102,6 @@ export class MapContainer extends Component {
       );
     }
 
-<<<<<<< HEAD
     setTimeout(() => {this.setState(() => ({locations: this.state.locations}))}, 5000);
     alert("Applying Color Gradient. Please Close Window");
 
@@ -121,25 +120,26 @@ export class MapContainer extends Component {
       if (typeof json.data.EAData === 'undefined') {
         return;
       }
-=======
-    const locations = this.state.locations;
-    Promise.all(promises).then(results => {
-      results.forEach((result, i) => {
-        const color = this.getSiteColor(result.data);
-        locations[i]["iconColor"] = color;
+
+      const locations = this.state.locations;
+      Promise.all(promises).then(results => {
+        results.forEach((result, i) => {
+          const color = this.getSiteColor(result.data);
+          locations[i]["iconColor"] = color;
+        });
+
+        this.setState({
+          locations
+        });
       });
 
-      this.setState({
-        locations
-      });
-    });
-
-    setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
+      setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
+    }
   }
 
   //Get each site data and assign new color
   getSiteColor(data) {
->>>>>>> master
+
 
       const eaData = data.EAData;
 
@@ -174,13 +174,11 @@ export class MapContainer extends Component {
       else {
         return yellowIcon;
       }
-<<<<<<< HEAD
 
       return;
     });
     return;
-=======
->>>>>>> master
+
   }
 
 
