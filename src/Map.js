@@ -99,8 +99,8 @@ export class MapContainer extends Component {
       this.assignSiteColor(this.state.locations[i].SiteCode, i)
     }
 
-    setTimeout(() => {this.setState(() => ({locations: this.state.locations}))}, 3000);
-    alert("Please wait while color gradient applies");
+    setTimeout(() => {this.setState(() => ({locations: this.state.locations}))}, 5000);
+    alert("Applying Color Gradient. Please Close Window");
 
   }
 
