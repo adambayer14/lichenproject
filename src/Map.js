@@ -95,32 +95,28 @@ export class MapContainer extends Component {
       return;
     }
 
-    const promises = [];
     for (var i = 0; i < this.state.locations.length; i++) {
-      promises.push(
-        getSiteData(this.state.locations[i].SiteCode)
-      );
+      this.assignSiteColor(this.state.locations[i].SiteCode, i)
     }
-
-    const locations = this.state.locations;
-    Promise.all(promises).then(results => {
-      results.forEach((result, i) => {
-        const color = this.getSiteColor(result.data);
-        locations[i]["iconColor"] = color;
-      });
-
-      this.setState({
-        locations
-      });
-    });
 
     setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
   }
 
   //Get each site data and assign new color
-  getSiteColor(data) {
+  async assignSiteColor(siteID, index) {
+    getSiteData(siteID).then(json => {
+      //We need to check why it's giving so many errors....
+      if (typeof json === 'undefined') {
+        return;
+      }
+      if (typeof json.data === 'undefined') {
+        return;
+      }
+      if (typeof json.data.EAData === 'undefined') {
+        return;
+      }
 
-      const eaData = data.EAData;
+      const eaData = json.data.EAData;
 
       if (eaData.length === 0) {
         return;
@@ -140,19 +136,23 @@ export class MapContainer extends Component {
         mostRecentSample = eaData[siteIDToIndex[sortedSiteIndexDict[i]]]
       }
 
+
       const currElementData = mostRecentSample[this.state.element]
 
       if (parseFloat(currElementData) < this.state.blueMax[this.state.element]) {
-        return blueIcon;
+        this.state.locations[index]["iconColor"] = blueIcon;
       }
       else if (parseFloat(currElementData) > this.state.yellowMax[this.state.element]) {
-        return redIcon;
+        this.state.locations[index]["iconColor"] = redIcon;
         // console.log(siteID)
         // console.log(parseFloat(currElementData), this.state.yellowMax[this.state.element])
       }
       else {
-        return yellowIcon;
+        this.state.locations[index]["iconColor"] = yellowIcon;
       }
+      return;
+    });
+    return;
   }
 
 
