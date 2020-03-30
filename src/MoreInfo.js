@@ -54,7 +54,6 @@ class MoreInfoRender extends React.Component {
           csv: csvData,
           change: true,
         })
-        console.log(this.state.csv)
       }
     }
     //console.log(csvData)
