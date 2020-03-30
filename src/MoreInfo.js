@@ -59,7 +59,7 @@ class MoreInfoRender extends React.Component {
 
 =======
     console.log(csvData)
-    
+
 >>>>>>> parent of fd7f91f... Download csv in more info
     return(
       <div class="more-info-container">
@@ -341,5 +341,3 @@ function getSiteData(siteCode) {
     .then(response => response.json())
     .catch(error => console.error(error));
 }
-
-
