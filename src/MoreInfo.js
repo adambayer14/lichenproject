@@ -23,6 +23,8 @@ class MoreInfoRender extends React.Component {
 
     this.state = {
       data: [],
+      csv: [],
+      change: false,
     }
   }
 
@@ -31,7 +33,7 @@ class MoreInfoRender extends React.Component {
     getSiteData(this.props.match.params.sitecode).then(json => {
       const siteData = json.data;
       this.setState({
-        data: siteData
+        data: siteData,
       });
     });
 
@@ -46,8 +48,17 @@ class MoreInfoRender extends React.Component {
     let percentBoxPlot = "/images/" + activeSite + "_percent.jpeg"
     let ppmBoxPlot = "/images/" + activeSite + "_ppm.jpeg"
     let csvData = formatCSV(this.state.data)
-    console.log(csvData)
-    
+    if (!this.state.change) {
+      if (csvData.length > 0) {
+        this.setState({
+          csv: csvData,
+          change: true,
+        })
+        console.log(this.state.csv)
+      }
+    }
+    //console.log(csvData)
+
     return(
       <div class="more-info-container">
         <div class="header-container">
@@ -66,7 +77,7 @@ class MoreInfoRender extends React.Component {
                 </div>
             </div>
             <div class="site-info-download">
-              {/* <CSVLink data={csvData}>Download me</CSVLink>; */}
+              <CSVLink data={csvData} filename={"testing.csv"}>Download me</CSVLink>
             </div>
             <br></br>
             <div class="graph-download">
@@ -127,7 +138,7 @@ class MoreInfoRender extends React.Component {
 
 function formatCSV(data) {
   if (data.length === 0) {
-    return
+    return []
   }
   var myList = [[
     "sample number","species","year collected","year published","analysis method",
@@ -186,9 +197,8 @@ function formatCSV(data) {
         String(currentSampleDict["F"])
       ])
   }
-  console.log(typeof(myList))
-  console.log(myList.constructor===Array)
-  console.log(myList);
+
+  //console.log(myList);
   return myList
 }
 
@@ -328,5 +338,3 @@ function getSiteData(siteCode) {
     .then(response => response.json())
     .catch(error => console.error(error));
 }
-
-
