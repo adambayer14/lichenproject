@@ -26,7 +26,8 @@ body{
 .site_description {
   border: 3px solid grey;
   padding: 10px;
-  width: 795px;
+  margin-bottom: 5px;
+  /* width: 795px; */
 }
 .info-selector-row {
     width: 250px;
@@ -38,7 +39,7 @@ body{
 .info-display-row {
     width: 800px;
     /* height: 700px; */
-    border: 3px solid black;
+    /* border: 3px solid black; */
     margin: 8px;
     display: flex;
     flex-direction: column;
@@ -76,8 +77,10 @@ body{
 }
 .sitepercent, .siteppm {
     padding: 5px;
+    border: 1px solid black;
+    width: inherit;
 }
-.graph-container, .percentage {
+.graph-container, .percentage, .ppm {
     width: inherit;
 }
 .ppm, .percentage {
@@ -86,15 +89,7 @@ body{
 img {
     border: 10px solid red;
 }
-.sitepercent{
-    width: 750px;
 
-}
-
-.siteppm {
-    width: 750px;
-    height: auto;
-}
 
 .graph-link {
   color: black;
@@ -141,6 +136,7 @@ img {
 #sample-12 {
     border: 3px solid lightgreen;
 }
+
 
 .dropdown-menu {
 

@@ -95,10 +95,14 @@ export class MapContainer extends Component {
       return;
     }
 
+    const promises = [];
     for (var i = 0; i < this.state.locations.length; i++) {
-      this.assignSiteColor(this.state.locations[i].SiteCode, i)
+      promises.push(
+        getSiteData(this.state.locations[i].SiteCode)
+      );
     }
 
+<<<<<<< HEAD
     setTimeout(() => {this.setState(() => ({locations: this.state.locations}))}, 5000);
     alert("Applying Color Gradient. Please Close Window");
 
@@ -117,8 +121,27 @@ export class MapContainer extends Component {
       if (typeof json.data.EAData === 'undefined') {
         return;
       }
+=======
+    const locations = this.state.locations;
+    Promise.all(promises).then(results => {
+      results.forEach((result, i) => {
+        const color = this.getSiteColor(result.data);
+        locations[i]["iconColor"] = color;
+      });
 
-      const eaData = json.data.EAData;
+      this.setState({
+        locations
+      });
+    });
+
+    setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
+  }
+
+  //Get each site data and assign new color
+  getSiteColor(data) {
+>>>>>>> master
+
+      const eaData = data.EAData;
 
       if (eaData.length === 0) {
         return;
@@ -138,24 +161,26 @@ export class MapContainer extends Component {
         mostRecentSample = eaData[siteIDToIndex[sortedSiteIndexDict[i]]]
       }
 
-
       const currElementData = mostRecentSample[this.state.element]
 
       if (parseFloat(currElementData) < this.state.blueMax[this.state.element]) {
-        this.state.locations[index]["iconColor"] = blueIcon;
+        return blueIcon;
       }
       else if (parseFloat(currElementData) > this.state.yellowMax[this.state.element]) {
-        this.state.locations[index]["iconColor"] = redIcon;
+        return redIcon;
         // console.log(siteID)
         // console.log(parseFloat(currElementData), this.state.yellowMax[this.state.element])
       }
       else {
-        this.state.locations[index]["iconColor"] = yellowIcon;
+        return yellowIcon;
       }
+<<<<<<< HEAD
 
       return;
     });
     return;
+=======
+>>>>>>> master
   }
 
 

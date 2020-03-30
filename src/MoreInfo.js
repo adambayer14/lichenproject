@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { CSVLink, CSVDownload } from "react-csv";
+
 // import {
 //   CollapsibleComponent,
 //   CollapsibleHead,
@@ -21,6 +23,8 @@ class MoreInfoRender extends React.Component {
 
     this.state = {
       data: [],
+      csv: [],
+      change: false,
     }
   }
 
@@ -28,30 +32,12 @@ class MoreInfoRender extends React.Component {
 
     getSiteData(this.props.match.params.sitecode).then(json => {
       const siteData = json.data;
-      //console.log(siteData);
       this.setState({
-        data: siteData
+        data: siteData,
       });
     });
 
   }
-
-  // prepareCSV() {
-  //   var csv = ''//'Name,Title\n';
-  //   this.state.data.forEach(function(row) {
-  //           csv += row.join(',');
-  //           csv += "\n";
-  //   });
-
-  //   console.log(csv);
-  //   var hiddenElement = document.createElement('a');
-  //   hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-  //   hiddenElement.target = '_blank';
-  //   hiddenElement.download = 'people.csv';
-  //   hiddenElement.click();
-
-  // }
-
 
   render() {
     let activeSite = this.props.match.params.sitecode
@@ -61,12 +47,23 @@ class MoreInfoRender extends React.Component {
     htmlDescriptionContainer = renderSiteDescription(this.state.data)
     let percentBoxPlot = "/images/" + activeSite + "_percent.jpeg"
     let ppmBoxPlot = "/images/" + activeSite + "_ppm.jpeg"
+    let csvData = formatCSV(this.state.data)
+    if (!this.state.change) {
+      if (csvData.length > 0) {
+        this.setState({
+          csv: csvData,
+          change: true,
+        })
+        console.log(this.state.csv)
+      }
+    }
+    //console.log(csvData)
 
     return(
       <div class="more-info-container">
         <div class="header-container">
           <div class="header">
-            Info for Site Number: {activeSite}
+            Information on Site: {activeSite}
           </div>
         </div>
 
@@ -74,13 +71,13 @@ class MoreInfoRender extends React.Component {
 
           <div class="info-selector-row">
             <div class="site-info">
-            <h3>Site ID: {activeSite}</h3>
+            <h3>Elemental Analysis</h3>
                 <div>
                   {htmlSideContainer}
                 </div>
             </div>
             <div class="site-info-download">
-              <button>Download Site Data</button>
+              <CSVLink data={csvData} filename={"testing.csv"}>Download me</CSVLink>
             </div>
             <br></br>
             <div class="graph-download">
@@ -97,10 +94,10 @@ class MoreInfoRender extends React.Component {
             <br></br>
           </div>
           <div class="info-display-row">
+            <div>
+              {htmlDescriptionContainer}
+            </div>
             <div class="graph-container">
-              <div>
-                {htmlDescriptionContainer}
-              </div>
               <div class="percentage">
                 <img className="sitepercent" src={percentBoxPlot} alt="Error Displaying Graph" />
               </div>
@@ -139,7 +136,71 @@ class MoreInfoRender extends React.Component {
 
 }
 
+function formatCSV(data) {
+  if (data.length === 0) {
+    return []
+  }
+  var myList = [[
+    "sample number","species","year collected","year published","analysis method",
+    "Ca","K","Mg","N","P","S","Al","As","B","Ba","Cd","Co","Cr","Cu","Fe","Mn","Mo",
+    "Na","Ni","Pb","Se","Si","Sr","Ti","V","Zn","Cl","Br","Rb","CuZn","FeTi","F"
+  ]];
+  var allEAData = data.EAData;
 
+  var siteIDToIndex = {};
+  for (let i = 0; i < allEAData.length; i++) {
+    var siteSampleNumber = parseFloat(allEAData[i].Sample);
+    siteIDToIndex[siteSampleNumber] = i;
+  }
+
+  var sortedSiteIndexDict = Object.keys(siteIDToIndex);
+
+  for (var i = 0; i < sortedSiteIndexDict.length; i++) {
+    var currentSampleDict = allEAData[siteIDToIndex[sortedSiteIndexDict[i]]]
+    myList.push([
+        String(sortedSiteIndexDict[i]),
+        String(currentSampleDict["Species"]),
+        String(currentSampleDict["ycollect"]),
+        String(currentSampleDict["ypublish"]),
+        String(currentSampleDict["tech"]),
+        String(currentSampleDict["CaPERC"]),
+        String(currentSampleDict["KPERC"]),
+        String(currentSampleDict["MgPERC"]),
+        String(currentSampleDict["NPERC"]),
+        String(currentSampleDict["PPERC"]),
+        String(currentSampleDict["SPERC"]),
+        String(currentSampleDict["Al"]),
+        String(currentSampleDict["As"]),
+        String(currentSampleDict["B"]),
+        String(currentSampleDict["Ba"]),
+        String(currentSampleDict["Cd"]),
+        String(currentSampleDict["Co"]),
+        String(currentSampleDict["Cr"]),
+        String(currentSampleDict["Cu"]),
+        String(currentSampleDict["Fe"]),
+        String(currentSampleDict["Mn"]),
+        String(currentSampleDict["Mo"]),
+        String(currentSampleDict["Na"]),
+        String(currentSampleDict["Ni"]),
+        String(currentSampleDict["Pb"]),
+        String(currentSampleDict["Se"]),
+        String(currentSampleDict["Si"]),
+        String(currentSampleDict["Sr"]),
+        String(currentSampleDict["Ti"]),
+        String(currentSampleDict["V"]),
+        String(currentSampleDict["Zn"]),
+        String(currentSampleDict["Cl"]),
+        String(currentSampleDict["Br"]),
+        String(currentSampleDict["Rb"]),
+        String(currentSampleDict["Cu_Zn"]),
+        String(currentSampleDict["Fe_Ti"]),
+        String(currentSampleDict["F"])
+      ])
+  }
+
+  //console.log(myList);
+  return myList
+}
 
 function renderSidePanel(activeSiteData) {
 
@@ -182,7 +243,7 @@ function renderSidePanel(activeSiteData) {
         Year Published: {currentSampleDict["ypublish"]}
         <br></br>
         Analysis Method: {currentSampleDict["tech"]}
-          <Collapsible trigger='View Numerical Data'>
+          <Collapsible trigger='View Data'>
                 <div class='content'>
                     Ca: {currentSampleDict["CaPERC"]}%<br/>
                     K:  {currentSampleDict["KPERC"]}%<br/>
@@ -237,10 +298,17 @@ function renderSiteDescription(siteData) {
  endHTML.push(
    <div class="site_description">
       <div class="description_head">
-          Site Description:<br/>
+          <h4>Site Description:</h4>
       </div>
-      <div>
-        Country: {siteData.Country};
+      <div class="description-body">
+        {siteData.DetailedLocalityData}<br/>
+        {siteData.USNF_NRA_NP}, {siteData.WildernessArea}<br/>
+        {siteData.County}, {siteData.State}, {siteData.Country}<br/>
+        Lat/Long: ({siteData.Lat},{siteData.Lng})<br/>
+        Elevation (meters): {siteData.Elevation}<br/>
+        Collection date: {siteData.CollectionDate}
+
+        {/* Country: {siteData.Country};
         State: {siteData.State};
         County: {siteData.County};
         Collection Data: {siteData.CollectionDate}
@@ -250,16 +318,13 @@ function renderSiteDescription(siteData) {
         <br/>
         Detailed Locality Data: {siteData.DetailedLocalityData}.
         <br/>
-        Lat: {siteData.Lat};
-        Long: {siteData.Lng};
-        Elevation (meters): {siteData.Elevation}
+        Latitude: {siteData.Lat};
+        Longitude: {siteData.Lng};
+        Elevation (meters): {siteData.Elevation} */}
         <br/>
       </div>
     </div>
   );
-
-  console.log(siteData)
-
   return endHTML;
 
 }
