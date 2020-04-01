@@ -90,6 +90,9 @@ img {
     border: 10px solid red;
 }
 
+.download-button {
+    color: inherit;
+}
 
 .graph-link {
   color: black;
