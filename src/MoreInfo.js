@@ -31,7 +31,9 @@ class MoreInfoRender extends React.Component {
     getSiteData(this.props.match.params.sitecode).then(json => {
       const siteData = json.data;
       this.setState({
-        data: siteData
+        data: siteData,
+        csv: [],
+        change: false,
       });
     });
 
@@ -46,8 +48,16 @@ class MoreInfoRender extends React.Component {
     let percentBoxPlot = "/images/" + activeSite + "_percent.jpeg"
     let ppmBoxPlot = "/images/" + activeSite + "_ppm.jpeg"
     let csvData = formatCSV(this.state.data)
+    if (!this.state.change) {
+      if (csvData.length > 0) {
+        this.setState({
+          csv: csvData,
+          change: true,
+        })
+        console.log(this.state.csv)
+      }
+    }
     console.log(csvData)
-    
     return(
       <div class="more-info-container">
         <div class="header-container">
