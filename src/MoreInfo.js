@@ -23,8 +23,6 @@ class MoreInfoRender extends React.Component {
 
     this.state = {
       data: [],
-      csv: [],
-      change: false,
     }
   }
 
@@ -34,6 +32,8 @@ class MoreInfoRender extends React.Component {
       const siteData = json.data;
       this.setState({
         data: siteData,
+        csv: [],
+        change: false,
       });
     });
 
@@ -57,7 +57,7 @@ class MoreInfoRender extends React.Component {
         console.log(this.state.csv)
       }
     }
-    //console.log(csvData)
+    console.log(csvData)
 
     return(
       <div class="more-info-container">
@@ -197,8 +197,9 @@ function formatCSV(data) {
         String(currentSampleDict["F"])
       ])
   }
-
-  //console.log(myList);
+  console.log(typeof(myList))
+  console.log(myList.constructor===Array)
+  console.log(myList);
   return myList
 }
 
