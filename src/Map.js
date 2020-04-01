@@ -35,6 +35,7 @@ export class MapContainer extends Component {
       locations: [],
       showingInfoWindow: false,
       activeMarker: {},
+      activeMarkerData: {},
       selectedLocation: {},
       moreInfoRedirect: false,
       element: 'None',
@@ -158,11 +159,17 @@ export class MapContainer extends Component {
 
 
   //need to change this for our stuff
-  onMarkerClick = (props, marker, e) => this.setState({
-    selectedLocation: props,
-    activeMarker: marker,
-    showingInfoWindow: true
-  });
+  onMarkerClick = (props, marker, e) => {
+    this.setState({
+      selectedLocation: props,
+      activeMarker: marker,
+      showingInfoWindow: true,
+    });
+    getSiteData(this.state.selectedLocation.name).then(json => {
+      const markerData = json.data;
+      this.setState({activeMarkerData: markerData});
+    });
+  }
 
   //need to change this for our stuff
   onClose = props => {
@@ -170,7 +177,8 @@ export class MapContainer extends Component {
       this.setState({
         showingInfoWindow: false,
         activeMarker: null,
-        moreInfoUrl: null
+        moreInfoUrl: null,
+        activeMarkerData: {},
       });
     }
   };
@@ -229,6 +237,7 @@ export class MapContainer extends Component {
 
   render() {
 
+    console.log(this.state.activeMarkerData)
     return (
 
       <div>
@@ -257,6 +266,8 @@ export class MapContainer extends Component {
                     >
                       <div>
                         <p>{this.state.selectedLocation.name}</p>
+                        <p>Collection Date: {this.state.activeMarkerData.CollectionDate}</p>
+                        <p>USNF/NRA/NP: {this.state.activeMarkerData.USNF_NRA_NP}</p>
                         <button type="button" onClick={this.handleMoreInfoClick}>More Info</button>
                       </div>
                     </InfoWindowEx>
@@ -326,7 +337,8 @@ export class MapContainer extends Component {
                   Number of Samples:
                   <input type="number" name="number" value={this.state.numSamples}
                     onChange={this.handleSampleChange.bind(this)}
-                    style={{ width: "40px"}}/>
+                    style={{ width: "45px"}}/>
+                  +
                 </Col>
 
                 </Row>
@@ -339,13 +351,13 @@ export class MapContainer extends Component {
                   </Col>
                   <Col>
                       Element range:
-                      <input type="text" name="min" value={this.state.minElement}
+                      <input type="number" name="min" value={this.state.minElement}
                         onChange={this.handleMinChange.bind(this)}
-                        style={{ width: "40px" }}/>
+                        style={{ width: "47px" }}/>
                       to
-                      <input type="text" name="max" value={this.state.maxElement}
+                      <input type="number" name="max" value={this.state.maxElement}
                         onChange={this.handleMaxChange.bind(this)}
-                        style={{ width: "40px" }}/>
+                        style={{ width: "47px" }}/>
                   </Col>
                 </Row>
                 <Row>
@@ -365,7 +377,8 @@ export class MapContainer extends Component {
                 <Container align="center">
                   <Row>
                     <Col>
-                        <h1>Select Element</h1>
+                        <h1> Map Gradient </h1>
+                        <p>Choose element to apply color gradient</p>
                     </Col>
                   </Row>
                   <Row class="element-row" style={{ margin: 10, }}>
