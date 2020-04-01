@@ -324,7 +324,7 @@ export class MapContainer extends Component {
                 </Col>
                 <Col>
                   Number of Samples:
-                  <input type="text" name="number" value={this.state.numSamples}
+                  <input type="number" name="number" value={this.state.numSamples}
                     onChange={this.handleSampleChange.bind(this)}
                     style={{ width: "40px"}}/>
                 </Col>
