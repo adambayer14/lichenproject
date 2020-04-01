@@ -324,9 +324,10 @@ export class MapContainer extends Component {
                 </Col>
                 <Col>
                   Number of Samples:
-                  <input type="text" name="number" value={this.state.numSamples}
+                  <input type="number" name="number" value={this.state.numSamples}
                     onChange={this.handleSampleChange.bind(this)}
-                    style={{ width: "40px"}}/>
+                    style={{ width: "45px"}}/>
+                  +
                 </Col>
 
                 </Row>
@@ -339,13 +340,13 @@ export class MapContainer extends Component {
                   </Col>
                   <Col>
                       Element range:
-                      <input type="text" name="min" value={this.state.minElement}
+                      <input type="number" name="min" value={this.state.minElement}
                         onChange={this.handleMinChange.bind(this)}
-                        style={{ width: "40px" }}/>
+                        style={{ width: "47px" }}/>
                       to
-                      <input type="text" name="max" value={this.state.maxElement}
+                      <input type="number" name="max" value={this.state.maxElement}
                         onChange={this.handleMaxChange.bind(this)}
-                        style={{ width: "40px" }}/>
+                        style={{ width: "47px" }}/>
                   </Col>
                 </Row>
                 <Row>
