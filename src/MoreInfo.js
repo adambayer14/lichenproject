@@ -41,6 +41,7 @@ class MoreInfoRender extends React.Component {
 
   render() {
     let activeSite = this.props.match.params.sitecode
+    let csvFileName = activeSite + '.csv'
     let htmlSideContainer;
     htmlSideContainer = renderSidePanel(this.state.data);
     let htmlDescriptionContainer;
@@ -78,7 +79,7 @@ class MoreInfoRender extends React.Component {
             </div>
             <div class="site-info-download">
               <button >
-                <CSVLink class="download-button" data={csvData} filename={"testing.csv"}>Download me</CSVLink>
+                <CSVLink class="download-button" data={csvData} filename={csvFileName}>Download Site Data</CSVLink>
               </button>
             </div>
             <br></br>
