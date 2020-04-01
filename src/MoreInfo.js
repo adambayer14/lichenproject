@@ -77,9 +77,7 @@ class MoreInfoRender extends React.Component {
                 </div>
             </div>
             <div class="site-info-download">
-              <button>
-                <CSVLink data={csvData} style={{ color: 'black' }} filename={"testing.csv"}>Download me</CSVLink>
-              </button>
+              <CSVLink data={csvData} filename={"testing.csv"}>Download me</CSVLink>
             </div>
             <br></br>
             <div class="graph-download">
