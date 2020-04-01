@@ -58,7 +58,6 @@ class MoreInfoRender extends React.Component {
       }
     }
     console.log(csvData)
-
     return(
       <div class="more-info-container">
         <div class="header-container">
@@ -77,7 +76,7 @@ class MoreInfoRender extends React.Component {
                 </div>
             </div>
             <div class="site-info-download">
-              <CSVLink data={csvData} filename={"testing.csv"}>Download me</CSVLink>
+              {/* <CSVLink data={csvData}>Download me</CSVLink>; */}
             </div>
             <br></br>
             <div class="graph-download">
@@ -138,7 +137,7 @@ class MoreInfoRender extends React.Component {
 
 function formatCSV(data) {
   if (data.length === 0) {
-    return []
+    return
   }
   var myList = [[
     "sample number","species","year collected","year published","analysis method",
@@ -339,3 +338,5 @@ function getSiteData(siteCode) {
     .then(response => response.json())
     .catch(error => console.error(error));
 }
+
+
