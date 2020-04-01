@@ -43,6 +43,7 @@ export class MapContainer extends Component {
       currentSpeciesFilter: "None",
       minElement: '',
       maxElement: '',
+      numSamples: '',
       blueMax: {"CaPERC": 2.455, "KPERC": .52, "MgPERC": .13,
         "NPERC": 1.46, "PPERC": .14, "SPERC": .129, "Al": 2100, "As": 3.2,
         "B": 14.15, "Ba": 70, "Cd": .795, "Co": 4.38, "Cr": 5.998, "Cu": 9.49,
@@ -199,7 +200,7 @@ export class MapContainer extends Component {
   handleFilterClick() {
     //This will clear points on map
     //this.setState({locations: []});
-    alert(`Filtering ${this.state.currentElementFilter}, ${this.state.currentSpeciesFilter} and
+    alert(`Filtering ${this.state.currentElementFilter}, ${this.state.currentSpeciesFilter}, ${this.state.numSamples} samples, and
       ${this.state.minElement} to ${this.state.maxElement}!`);
   }
 
@@ -220,6 +221,9 @@ export class MapContainer extends Component {
   }
   handleMaxChange(event) {
     this.setState({maxElement: event.target.value})
+  }
+  handleSampleChange(event) {
+    this.setState({numSamples: event.target.value})
   }
 
 
@@ -318,6 +322,12 @@ export class MapContainer extends Component {
                     </Dropdown.Menu>
                   </Dropdown>
                 </Col>
+                <Col>
+                  Number of Samples:
+                  <input type="text" name="number" value={this.state.numSamples}
+                    onChange={this.handleSampleChange.bind(this)}
+                    style={{ width: "40px"}}/>
+                </Col>
 
                 </Row>
                 <Row>
@@ -369,31 +379,31 @@ export class MapContainer extends Component {
                       <Row>
                         <label>
                           <input type="radio" value="CaPERC" checked={this.state.element === "CaPERC"} onChange={this.handleChange} />
-                        Ca%
+                        Ca
                         </label>
                       </Row>
                       <Row>
                         <label>
                           <input type="radio" value="KPERC" checked={this.state.element === "KPERC"} onChange={this.handleChange}/>
-                        K%
+                        K
                         </label>
                       </Row>
                       <Row>
                         <label>
                           <input type="radio" value="MgPERC" checked={this.state.element === "MgPERC"} onChange={this.handleChange}/>
-                        Mg%
+                        Mg
                         </label>
                       </Row>
                       <Row>
                         <label>
                           <input type="radio" value="NPERC" checked={this.state.element === "NPERC"} onChange={this.handleChange}/>
-                        N%
+                        N
                         </label>
                       </Row>
                       <Row>
                         <label>
                           <input type="radio" value="PPERC" checked={this.state.element === "PPERC"} onChange={this.handleChange}/>
-                        P%
+                        P
                         </label>
                       </Row>
                     </Col>
@@ -553,13 +563,13 @@ export class MapContainer extends Component {
                       <Row>
                         <label>
                           <input type="radio" value="Cu.Zn" checked={this.state.element === "Cu.Zn"} onChange={this.handleChange}/>
-                        CuZn
+                        Cu.Zn
                         </label>
                       </Row>
                       <Row>
                         <label>
                           <input type="radio" value="Fe.Ti" checked={this.state.element === "Fe.Ti"} onChange={this.handleChange}/>
-                        FeTi
+                        Fe.Ti
                         </label>
                       </Row>
                       <Row>
@@ -589,7 +599,7 @@ export class MapContainer extends Component {
                   }}
                   >
                     <button>
-                      Download Filtered Data as csv
+                      Download Filtered Data
                     </button>
                   </div>
               </div>
