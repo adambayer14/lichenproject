@@ -595,7 +595,7 @@ export class MapContainer extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                     lineHeight: 3,
-                    margin: 25,
+                    margin: 45,
                   }}
                   >
                     <button>
