@@ -304,27 +304,12 @@ function renderSiteDescription(siteData) {
           <h4>Site Description:</h4>
       </div>
       <div class="description-body">
-        {siteData.DetailedLocalityData}<br/>
+        <strong>Location:</strong> {siteData.DetailedLocalityData}<br/>
         {siteData.USNF_NRA_NP}, {siteData.WildernessArea}<br/>
         {siteData.County}, {siteData.State}, {siteData.Country}<br/>
-        Lat/Long: ({siteData.Lat},{siteData.Lng})<br/>
-        Elevation (meters): {siteData.Elevation}<br/>
-        Collection date: {siteData.CollectionDate}
-
-        {/* Country: {siteData.Country};
-        State: {siteData.State};
-        County: {siteData.County};
-        Collection Data: {siteData.CollectionDate}
-        <br/>
-        USNF/NRA/NP: {siteData.USNF_NRA_NP};
-        Wilderness Area/unit: {siteData.WildernessArea}
-        <br/>
-        Detailed Locality Data: {siteData.DetailedLocalityData}.
-        <br/>
-        Latitude: {siteData.Lat};
-        Longitude: {siteData.Lng};
-        Elevation (meters): {siteData.Elevation} */}
-        <br/>
+        <strong>Lat/Long:</strong> ({siteData.Lat},{siteData.Lng})<br/>
+        <strong>Elevation:</strong> {siteData.Elevation}<br/>
+        <strong>Collection date:</strong> {siteData.CollectionDate}
       </div>
     </div>
   );
