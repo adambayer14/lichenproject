@@ -339,7 +339,7 @@ export class MapContainer extends Component {
                   </Dropdown>
                 </Col>
                 <Col>
-                  Minimun Samples:
+                  Minimum # of Samples:
                   <input type="number" name="number" value={this.state.numSamples}
                     onChange={this.handleSampleChange.bind(this)}
                     style={{ width: "45px"}}/>
@@ -366,7 +366,7 @@ export class MapContainer extends Component {
                 </Row>
                 <Row>
                   <Col>
-                    <button onClick={this.handleFilterClick}>Apply Selected Filters</button>
+                    <button onClick={this.handleFilterClick}>Apply Filter</button>
                   </Col>
                 </Row>
 
