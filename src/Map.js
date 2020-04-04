@@ -279,6 +279,11 @@ export class MapContainer extends Component {
               <div class="filter-container" align="center">
                 <Row>
                   <Col>
+                    <h2> Filter Criteria: </h2>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
                   <Dropdown drop="up">
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
                       Choose Species
@@ -334,11 +339,10 @@ export class MapContainer extends Component {
                   </Dropdown>
                 </Col>
                 <Col>
-                  Number of Samples:
+                  Minimun Samples:
                   <input type="number" name="number" value={this.state.numSamples}
                     onChange={this.handleSampleChange.bind(this)}
                     style={{ width: "45px"}}/>
-                  +
                 </Col>
 
                 </Row>
@@ -608,7 +612,7 @@ export class MapContainer extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                     lineHeight: 3,
-                    margin: 45,
+                    margin: 75,
                   }}
                   >
                     <button>
