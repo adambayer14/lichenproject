@@ -33,6 +33,7 @@ export class MapContainer extends Component {
 
     this.state = {
       locations: [],
+      noFilterLocations: [],
       showingInfoWindow: false,
       activeMarker: {},
       activeMarkerData: {},
