@@ -653,6 +653,12 @@ function getAllData() {
     .catch(error => console.error(error));
 }
 
+function getAllDataWithEA() {
+  return fetch(`${SERVER_ROOT}/dev/sites?IncludeEA=true`)
+    .then(response => response.json())
+    .catch(error => console.error(error));
+}
+
 function getSiteData(siteCode) {
   return fetch(`${SERVER_ROOT}/dev/sites/${siteCode}`)
     .then(response => response.json())
