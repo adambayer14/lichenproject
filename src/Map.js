@@ -34,6 +34,8 @@ export class MapContainer extends Component {
     this.state = {
       locations: [],
       noFilterLocations: [],
+      allDataWithEA: [],
+      allDataDictionary: {},
       showingInfoWindow: false,
       activeMarker: {},
       activeMarkerData: {},
@@ -43,9 +45,9 @@ export class MapContainer extends Component {
       elementContainer: document.getElementById('elements'),
       currentElementFilter: "None",
       currentSpeciesFilter: "None",
-      minElement: '',
-      maxElement: '',
-      numSamples: '',
+      minElement: 0,
+      maxElement: Infinity,
+      numSamples: 0,
       blueMax: {"CaPERC": 2.455, "KPERC": .52, "MgPERC": .13,
         "NPERC": 1.46, "PPERC": .14, "SPERC": .129, "Al": 2100, "As": 3.2,
         "B": 14.15, "Ba": 70, "Cd": .795, "Co": 4.38, "Cr": 5.998, "Cu": 9.49,
@@ -75,9 +77,26 @@ export class MapContainer extends Component {
       const newCoords = coords.map(coord => ({ SiteCode: coord.SiteCode, latitude: coord.Lat, longitude: coord.Lng, iconColor: blueIcon }));
 
       this.setState({
-        locations: newCoords
+        locations: Array.from(newCoords),
+        noFilterLocations: Array.from(newCoords)
       });
     });
+
+    getAllDataWithEA().then(json => {
+      var eaData = json.data;
+      var dataDictionary = {}
+
+      for (var site in eaData){
+        dataDictionary[eaData[site].SiteCode] = eaData[site]
+      }
+
+
+      this.setState({
+         allDataWithEA: eaData,
+         allDataDictionary: dataDictionary
+       });
+    });
+
   }
 
   handleChange(event) {
@@ -207,8 +226,37 @@ export class MapContainer extends Component {
   }
 
   handleFilterClick() {
-    //This will clear points on map
-    //this.setState({locations: []});
+
+    console.log(this.state.noFilterLocations)
+
+    var newLocations = Array.from(this.state.noFilterLocations);
+
+    for (var i in this.state.allDataWithEA) {
+
+      var site = this.state.allDataWithEA[i]
+
+      if (typeof site.EAData === 'undefined') {
+        var index = newLocations.indexOf(site.SiteCode);
+        newLocations.splice(index, 1);
+        continue
+      }
+
+      var eaCurrentSite = site.EAData
+
+      if (eaCurrentSite.length < this.state.numSamples) {
+        var index = newLocations.indexOf(site.SiteCode);
+        newLocations.splice(index, 1);
+        continue
+      }
+
+    }
+
+    console.log(newLocations)
+    this.setState ({
+      locations: Array.from(newLocations)
+    });
+
+
     alert(`Filtering ${this.state.currentElementFilter}, ${this.state.currentSpeciesFilter}, ${this.state.numSamples} samples, and
       ${this.state.minElement} to ${this.state.maxElement}!`);
   }
@@ -238,7 +286,6 @@ export class MapContainer extends Component {
 
   render() {
 
-    console.log(this.state.activeMarkerData)
     return (
 
       <div>
