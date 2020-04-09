@@ -48,6 +48,7 @@ export class MapContainer extends Component {
       minElement: 0,
       maxElement: Infinity,
       numSamples: 0,
+      filterClicked: false,
       blueMax: {"CaPERC": 2.455, "KPERC": .52, "MgPERC": .13,
         "NPERC": 1.46, "PPERC": .14, "SPERC": .129, "Al": 2100, "As": 3.2,
         "B": 14.15, "Ba": 70, "Cd": .795, "Co": 4.38, "Cr": 5.998, "Cu": 9.49,
@@ -112,39 +113,12 @@ export class MapContainer extends Component {
       this.state.locations[i]["iconColor"] = blueIcon;
     }
 
-    if (this.state.element === "None") {
-      setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},1000);
-      return;
-    }
-
-    for (var i = 0; i < this.state.locations.length; i++) {
-      this.assignSiteColor(this.state.locations[i].SiteCode, i)
-    }
-
-    setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
-  }
-
-  //Get each site data and assign new color
-  async assignSiteColor(siteID, index) {
-    getSiteData(siteID).then(json => {
-      //We need to check why it's giving so many errors....
-      if (typeof json === 'undefined') {
-        return;
-      }
-      if (typeof json.data === 'undefined') {
-        return;
-      }
-      if (typeof json.data.EAData === 'undefined') {
-        return;
+    for (var j = 0; j < this.state.locations.length; j++) {
+      var eaData = this.state.allDataDictionary[this.state.locations[j].SiteCode].EAData
+      if (typeof eaData === "undefined") {
+        continue;
       }
 
-      const eaData = json.data.EAData;
-
-      if (eaData.length === 0) {
-        return;
-      }
-
-      //Get index of highest sample
       var siteIDToIndex = {};
       for (let i = 0; i < eaData.length; i++) {
         var siteSampleNumber = parseFloat(eaData[i].Sample);
@@ -158,23 +132,83 @@ export class MapContainer extends Component {
         mostRecentSample = eaData[siteIDToIndex[sortedSiteIndexDict[i]]]
       }
 
+      var currElementData = mostRecentSample[this.state.element]
 
-      const currElementData = mostRecentSample[this.state.element]
-
-      if (parseFloat(currElementData) < this.state.blueMax[this.state.element]) {
-        this.state.locations[index]["iconColor"] = blueIcon;
+      if (currElementData === "NA") {
+        this.state.locations[j]["iconColor"] = blueIcon;
+      }
+      else if (parseFloat(currElementData) < this.state.blueMax[this.state.element]) {
+        this.state.locations[j]["iconColor"] = blueIcon;
       }
       else if (parseFloat(currElementData) > this.state.yellowMax[this.state.element]) {
-        this.state.locations[index]["iconColor"] = redIcon;
-        // console.log(siteID)
-        // console.log(parseFloat(currElementData), this.state.yellowMax[this.state.element])
+        this.state.locations[j]["iconColor"] = redIcon;
       }
       else {
-        this.state.locations[index]["iconColor"] = yellowIcon;
+        this.state.locations[j]["iconColor"] = yellowIcon;
       }
-      return;
+
+    }
+
+    // setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
+
+    this.setState({
+      locations: this.state.locations
     });
-    return;
+  }
+
+  setColorsAfterFilter() {
+
+    //Return all markers back to blue
+    for (var i = 0; i < this.state.locations.length; i++) {
+      this.state.locations[i]["iconColor"] = blueIcon;
+    }
+
+    if (this.state.element === "None") {
+      return;
+    }
+
+    for (var j = 0; j < this.state.locations.length; j++) {
+      var eaData = this.state.allDataDictionary[this.state.locations[j].SiteCode].EAData
+      if (typeof eaData === "undefined") {
+        continue;
+      }
+
+      var siteIDToIndex = {};
+      for (let i = 0; i < eaData.length; i++) {
+        var siteSampleNumber = parseFloat(eaData[i].Sample);
+        siteIDToIndex[siteSampleNumber] = i;
+      }
+
+      var sortedSiteIndexDict = Object.keys(siteIDToIndex);
+
+      var mostRecentSample;
+      for (var i = 0; i < sortedSiteIndexDict.length; i++) {
+        mostRecentSample = eaData[siteIDToIndex[sortedSiteIndexDict[i]]]
+      }
+
+      var currElementData = mostRecentSample[this.state.element]
+
+      if (currElementData === "NA") {
+        this.state.locations[j]["iconColor"] = blueIcon;
+      }
+      else if (parseFloat(currElementData) < this.state.blueMax[this.state.element]) {
+        this.state.locations[j]["iconColor"] = blueIcon;
+      }
+      else if (parseFloat(currElementData) > this.state.yellowMax[this.state.element]) {
+        this.state.locations[j]["iconColor"] = redIcon;
+      }
+      else {
+        this.state.locations[j]["iconColor"] = yellowIcon;
+      }
+
+    }
+
+    // setTimeout(function(){alert("Click on any map marker to apply gradient changes.")},2000);
+
+    this.setState({
+      locations: this.state.locations,
+      filterClicked: false
+    });
   }
 
 
@@ -218,8 +252,6 @@ export class MapContainer extends Component {
   }
 
   handleMoreInfoClick() {
-    //alert(`You are leaving.`);
-    //window.location.reload();
     let moreInfoUrl = '/moreinfo/' + this.state.activeMarker.name
     this.setState({moreInfoRedirect: true});
     window.open(moreInfoUrl);
@@ -237,26 +269,58 @@ export class MapContainer extends Component {
       var site = this.state.allDataDictionary[this.state.noFilterLocations[i].SiteCode];
 
       if (typeof site.EAData === 'undefined') {
-        continue
+        continue;
       }
 
-      var eaCurrentSite = site.EAData
+      var eaCurrentSite = site.EAData;
 
       if (eaCurrentSite.length < this.state.numSamples) {
-        continue
+        continue;
+      }
+
+      //Need Species and Element
+      //Get most recent sample
+      var siteIDToIndex = {};
+      for (let j = 0; j < eaCurrentSite.length; j++) {
+        var siteSampleNumber = parseFloat(eaCurrentSite[j].Sample);
+        siteIDToIndex[siteSampleNumber] = j;
+      }
+
+      var sortedSiteIndexDict = Object.keys(siteIDToIndex);
+
+      var mostRecentSample;
+      for (var j = 0; j < sortedSiteIndexDict.length; j++) {
+        mostRecentSample = eaCurrentSite[siteIDToIndex[sortedSiteIndexDict[j]]]
+      }
+
+      if (i ==- 0) {
+        console.log(mostRecentSample)
+      }
+
+
+      if (mostRecentSample.Species !== this.state.currentSpeciesFilter &&
+         this.state.currentSpeciesFilter != "None") {
+        continue;
+      }
+
+      var currElementData = mostRecentSample[this.state.element]
+
+      if (parseFloat(currElementData) <= this.state.minElement ||
+          parseFloat(currElementData) >= this.state.maxElement) {
+        continue;
       }
 
       newLocations.push(this.state.noFilterLocations[i])
 
     }
 
+
     this.setState ({
-      locations: newLocations
+      locations: Array.from(newLocations),
+      filterClicked: true
     });
 
 
-    alert(`Filtering ${this.state.currentElementFilter}, ${this.state.currentSpeciesFilter}, ${this.state.numSamples} samples, and
-      ${this.state.minElement} to ${this.state.maxElement}!`);
   }
 
   handleSelect(evt) {
@@ -283,6 +347,12 @@ export class MapContainer extends Component {
 
 
   render() {
+
+    // This assigns color again in the case they filtered, changed element,
+    // then filtered again. It keeps colors consistent with element selected.
+    if (this.state.filterClicked) {
+      this.setColorsAfterFilter();
+    }
 
     return (
 
@@ -335,6 +405,7 @@ export class MapContainer extends Component {
                       Choose Species
                     </Dropdown.Toggle>
                     <Dropdown.Menu bsPrefix="dropdown-menu species_dropdown">
+                      <Dropdown.Item eventKey="None" onSelect={this.handleSelectSpecies.bind(this)}>None</Dropdown.Item>
                       <Dropdown.Item eventKey="letharia" onSelect={this.handleSelectSpecies.bind(this)}>letharia</Dropdown.Item>
                       <Dropdown.Item eventKey="rhizoplaca" onSelect={this.handleSelectSpecies.bind(this)}>rhizoplaca</Dropdown.Item>
                       <Dropdown.Item eventKey="usnea" onSelect={this.handleSelectSpecies.bind(this)}>usnea</Dropdown.Item>
@@ -349,6 +420,7 @@ export class MapContainer extends Component {
                       Choose Element
                     </Dropdown.Toggle>
                     <Dropdown.Menu bsPrefix="dropdown-menu element_dropdown">
+                      <Dropdown.Item eventKey="None" onSelect={this.handleSelect.bind(this)}>None</Dropdown.Item>
                       <Dropdown.Item eventKey="CaPERC" onSelect={this.handleSelect.bind(this)}>Ca</Dropdown.Item>
                       <Dropdown.Item eventKey="KPERC" onSelect={this.handleSelect.bind(this)}>K</Dropdown.Item>
                       <Dropdown.Item eventKey="MgPERC" onSelect={this.handleSelect.bind(this)}>Mg</Dropdown.Item>
