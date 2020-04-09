@@ -102,11 +102,11 @@ class MoreInfoRender extends React.Component {
             </div>
             <div class="graph-container">
               <div class="percentage">
-                <img className="sitepercent" src={percentBoxPlot} alt="Error Displaying Graph" />
+                <img className="sitepercent" src={percentBoxPlot} alt="EA data not available for this site" />
               </div>
               <hr></hr>
               <div class="ppm">
-                <img className="siteppm" src={ppmBoxPlot} alt="Error Displaying Graph" />
+                <img className="siteppm" src={ppmBoxPlot} alt="EA data not available for this site" />
               </div>
             </div>
           </div>
