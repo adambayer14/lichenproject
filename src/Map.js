@@ -113,6 +113,13 @@ export class MapContainer extends Component {
       this.state.locations[i]["iconColor"] = blueIcon;
     }
 
+    if (this.state.element === "None") {
+      this.setState({
+        locations: this.state.locations
+      });
+      return;
+    }
+
     for (var j = 0; j < this.state.locations.length; j++) {
       var eaData = this.state.allDataDictionary[this.state.locations[j].SiteCode].EAData
       if (typeof eaData === "undefined") {
@@ -164,6 +171,10 @@ export class MapContainer extends Component {
     }
 
     if (this.state.element === "None") {
+      this.setState({
+        locations: this.state.locations,
+        filterClicked: false
+      });
       return;
     }
 
@@ -303,11 +314,14 @@ export class MapContainer extends Component {
         continue;
       }
 
-      var currElementData = mostRecentSample[this.state.element]
 
-      if (parseFloat(currElementData) <= this.state.minElement ||
-          parseFloat(currElementData) >= this.state.maxElement) {
-        continue;
+      if (this.state.currentElementFilter != "None"){
+        var currElementData = mostRecentSample[this.state.currentElementFilter]
+
+        if (parseFloat(currElementData) <= this.state.minElement ||
+            parseFloat(currElementData) >= this.state.maxElement) {
+          continue;
+        }
       }
 
       newLocations.push(this.state.noFilterLocations[i])
