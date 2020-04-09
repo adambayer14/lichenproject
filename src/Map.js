@@ -304,12 +304,7 @@ export class MapContainer extends Component {
         mostRecentSample = eaCurrentSite[siteIDToIndex[sortedSiteIndexDict[j]]]
       }
 
-      if (i ==- 0) {
-        console.log(mostRecentSample)
-      }
-
-
-      if (mostRecentSample.Species !== this.state.currentSpeciesFilter &&
+      if (mostRecentSample.Species != this.state.currentSpeciesFilter &&
          this.state.currentSpeciesFilter != "None") {
         continue;
       }
@@ -424,6 +419,7 @@ export class MapContainer extends Component {
                       <Dropdown.Item eventKey="rhizoplaca" onSelect={this.handleSelectSpecies.bind(this)}>rhizoplaca</Dropdown.Item>
                       <Dropdown.Item eventKey="usnea" onSelect={this.handleSelectSpecies.bind(this)}>usnea</Dropdown.Item>
                       <Dropdown.Item eventKey="xanthomendoza" onSelect={this.handleSelectSpecies.bind(this)}>xanthomendoza</Dropdown.Item>
+                      <Dropdown.Item eventKey="xanthoparmelia" onSelect={this.handleSelectSpecies.bind(this)}>xanthoparmelia</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </Col>

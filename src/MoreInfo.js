@@ -55,10 +55,10 @@ class MoreInfoRender extends React.Component {
           csv: csvData,
           change: true,
         })
-        console.log(this.state.csv)
+        //console.log(this.state.csv)
       }
     }
-    console.log(csvData)
+    //console.log(csvData)
 
     return(
       <div class="more-info-container">
@@ -143,11 +143,14 @@ function formatCSV(data) {
   if (data.length === 0) {
     return []
   }
-  var myList = [[
+  var myList = [
+    ["Elemental Analysis:"],
+    [
     "sample number","species","year collected","year published","analysis method",
     "Ca","K","Mg","N","P","S","Al","As","B","Ba","Cd","Co","Cr","Cu","Fe","Mn","Mo",
     "Na","Ni","Pb","Se","Si","Sr","Ti","V","Zn","Cl","Br","Rb","CuZn","FeTi","F"
-  ]];
+    ]
+  ];
   var allEAData = data.EAData;
 
   var siteIDToIndex = {};
@@ -200,9 +203,24 @@ function formatCSV(data) {
         String(currentSampleDict["F"])
       ])
   }
-  console.log(typeof(myList))
-  console.log(myList.constructor===Array)
-  console.log(myList);
+
+  myList.push([])
+  myList.push([])
+  myList.push(["Site Inventory:"])
+  myList.push(["Site Code", "Ecoregion Level III", "Ecoregion 4",
+  "Source (Report)", "Country", "State", "County", "USNF/NRA/NP",
+  "Wilderness Area/unit", "Detailed Locality Data", "Lat", "Long",
+  "Elevation (meters)", "Collection Date", "Collectors", "Species Inventory",
+   "Elemental Analysis"])
+
+   myList.push([data.SiteCode, data.EcoRegion3, data.EcoRegion4, data.Source,
+      data.Country, data.State, data.County, data.USNF_NRA_NP,
+      data.WildernessArea, data.DetailedLocalityData, data.Lat, data.Lng,
+       data.Elevation, data.CollectionDate, data.Collectors,
+       data.SpeciesInventory, data.ElementalAnalysis])
+  // console.log(typeof(myList))
+  // console.log(myList.constructor===Array)
+  // console.log(myList);
   return myList
 }
 
