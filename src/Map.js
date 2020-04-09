@@ -44,7 +44,7 @@ export class MapContainer extends Component {
       element: 'None',
       elementContainer: document.getElementById('elements'),
       currentElementFilter: "None",
-      currentSpeciesFilter: "None",
+      currentSpeciesFilter: "All Species",
       minElement: 0,
       maxElement: Infinity,
       numSamples: 0,
@@ -305,7 +305,7 @@ export class MapContainer extends Component {
       }
 
       if (mostRecentSample.Species != this.state.currentSpeciesFilter &&
-         this.state.currentSpeciesFilter != "None") {
+         this.state.currentSpeciesFilter != "All Species") {
         continue;
       }
 
@@ -414,7 +414,7 @@ export class MapContainer extends Component {
                       Choose Species
                     </Dropdown.Toggle>
                     <Dropdown.Menu bsPrefix="dropdown-menu species_dropdown">
-                      <Dropdown.Item eventKey="None" onSelect={this.handleSelectSpecies.bind(this)}>All Species</Dropdown.Item>
+                      <Dropdown.Item eventKey="All Species" onSelect={this.handleSelectSpecies.bind(this)}>All Species</Dropdown.Item>
                       <Dropdown.Item eventKey="letharia" onSelect={this.handleSelectSpecies.bind(this)}>letharia</Dropdown.Item>
                       <Dropdown.Item eventKey="rhizoplaca" onSelect={this.handleSelectSpecies.bind(this)}>rhizoplaca</Dropdown.Item>
                       <Dropdown.Item eventKey="usnea" onSelect={this.handleSelectSpecies.bind(this)}>usnea</Dropdown.Item>
@@ -510,8 +510,8 @@ export class MapContainer extends Component {
                   <Row>
                     <Col>
                         <h2> Map Gradient </h2>
-                        Choose element to apply color gradient<br/>
-                        (Blue: low pollution, Yellow: moderate pollution, Red: high pollution)
+                        Choose element to apply color gradient:<br/>
+                        Blue: low pollution, Yellow: moderate pollution, Red: high pollution
                     </Col>
                   </Row>
                   <Row class="element-row" style={{ margin: 10, }}>
