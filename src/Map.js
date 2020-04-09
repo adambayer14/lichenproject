@@ -225,35 +225,33 @@ export class MapContainer extends Component {
     window.open(moreInfoUrl);
   }
 
+  // The filters check each value and if it doens't meet a criteria then
+  // loop continues. If it makes it to the end, it pushes value to newLocations.
   handleFilterClick() {
 
-    console.log(this.state.noFilterLocations)
 
-    var newLocations = Array.from(this.state.noFilterLocations);
+    var newLocations = [];
 
-    for (var i in this.state.allDataWithEA) {
+    for (var i in this.state.noFilterLocations) {
 
-      var site = this.state.allDataWithEA[i]
+      var site = this.state.allDataDictionary[this.state.noFilterLocations[i].SiteCode];
 
       if (typeof site.EAData === 'undefined') {
-        var index = newLocations.indexOf(site.SiteCode);
-        newLocations.splice(index, 1);
         continue
       }
 
       var eaCurrentSite = site.EAData
 
       if (eaCurrentSite.length < this.state.numSamples) {
-        var index = newLocations.indexOf(site.SiteCode);
-        newLocations.splice(index, 1);
         continue
       }
 
+      newLocations.push(this.state.noFilterLocations[i])
+
     }
 
-    console.log(newLocations)
     this.setState ({
-      locations: Array.from(newLocations)
+      locations: newLocations
     });
 
 
