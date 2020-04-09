@@ -373,7 +373,7 @@ export class MapContainer extends Component {
       <div>
         <div class="header-container">
           <div class="header">
-            Click on a point to investigate a sample site.
+            Lichen Data Visualization Map
           </div>
         </div>
 
@@ -419,7 +419,7 @@ export class MapContainer extends Component {
                       Choose Species
                     </Dropdown.Toggle>
                     <Dropdown.Menu bsPrefix="dropdown-menu species_dropdown">
-                      <Dropdown.Item eventKey="None" onSelect={this.handleSelectSpecies.bind(this)}>None</Dropdown.Item>
+                      <Dropdown.Item eventKey="None" onSelect={this.handleSelectSpecies.bind(this)}>All Species</Dropdown.Item>
                       <Dropdown.Item eventKey="letharia" onSelect={this.handleSelectSpecies.bind(this)}>letharia</Dropdown.Item>
                       <Dropdown.Item eventKey="rhizoplaca" onSelect={this.handleSelectSpecies.bind(this)}>rhizoplaca</Dropdown.Item>
                       <Dropdown.Item eventKey="usnea" onSelect={this.handleSelectSpecies.bind(this)}>usnea</Dropdown.Item>
@@ -471,7 +471,7 @@ export class MapContainer extends Component {
                   </Dropdown>
                 </Col>
                 <Col>
-                  Minimun Samples:
+                  Minimum # of Samples:
                   <input type="number" name="number" value={this.state.numSamples}
                     onChange={this.handleSampleChange.bind(this)}
                     style={{ width: "45px"}}/>
@@ -498,7 +498,7 @@ export class MapContainer extends Component {
                 </Row>
                 <Row>
                   <Col>
-                    <button onClick={this.handleFilterClick}>Apply Selected Filters</button>
+                    <button onClick={this.handleFilterClick}>Apply Filter</button>
                   </Col>
                 </Row>
 
@@ -513,8 +513,9 @@ export class MapContainer extends Component {
                 <Container align="center">
                   <Row>
                     <Col>
-                        <h1> Map Gradient </h1>
-                        <p>Choose element to apply color gradient</p>
+                        <h2> Map Gradient </h2>
+                        Choose element to apply color gradient<br/>
+                        (Blue: low pollution, Yellow: moderate pollution, Red: high pollution)
                     </Col>
                   </Row>
                   <Row class="element-row" style={{ margin: 10, }}>
@@ -758,7 +759,7 @@ export class MapContainer extends Component {
 
         <div class="footer-container">
           <div class="footer">
-            Color Gradient Key: Blue: low pollution, Yellow: moderate pollution, Red: high pollution
+            All lichen data provided and maintained by Dr. Leavitt
           </div>
         </div>
 
