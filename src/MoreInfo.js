@@ -146,7 +146,7 @@ function formatCSV(data) {
   var myList = [
     ["Elemental Analysis:"],
     [
-    "sample number","species","year collected","year published","analysis method",
+    "Sample Number","Species","Year Collected","Year Published","Analysis Method",
     "Ca","K","Mg","N","P","S","Al","As","B","Ba","Cd","Co","Cr","Cu","Fe","Mn","Mo",
     "Na","Ni","Pb","Se","Si","Sr","Ti","V","Zn","Cl","Br","Rb","CuZn","FeTi","F"
     ]
