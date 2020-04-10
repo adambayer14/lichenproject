@@ -7,6 +7,7 @@ import InfoWindowEx from "./InfoWindowEx"
 //import { MoreInfoRender } from './MoreInfo';
 import { Container, Row, Col } from 'reactstrap';
 import Dropdown from 'react-bootstrap/Dropdown'
+import { CSVLink, CSVDownload } from "react-csv";
 
 
 
@@ -49,6 +50,7 @@ export class MapContainer extends Component {
       maxElement: Infinity,
       numSamples: 0,
       filterClicked: false,
+      firstTime: true,
       blueMax: {"CaPERC": 2.455, "KPERC": .52, "MgPERC": .13,
         "NPERC": 1.46, "PPERC": .14, "SPERC": .129, "Al": 2100, "As": 3.2,
         "B": 14.15, "Ba": 70, "Cd": .795, "Co": 4.38, "Cr": 5.998, "Cu": 9.49,
@@ -326,8 +328,9 @@ export class MapContainer extends Component {
 
     this.setState ({
       locations: Array.from(newLocations),
-      filterClicked: true
+      filterClicked: true,
     });
+
 
 
   }
@@ -356,12 +359,22 @@ export class MapContainer extends Component {
 
 
   render() {
+    var eaCSV = [];
+    var siCSV = [];
 
+    if (this.state.locations.length !== 0 && Object.keys(this.state.allDataDictionary).length !== 0 && this.state.firstTime === true) {
+      eaCSV = formatEACSV(this.state.locations, this.state.allDataDictionary);
+      siCSV = formatSICSV(this.state.locations, this.state.allDataDictionary);
+      this.setState({firstTime: false})
+    }
     // This assigns color again in the case they filtered, changed element,
     // then filtered again. It keeps colors consistent with element selected.
     if (this.state.filterClicked) {
       this.setColorsAfterFilter();
+      eaCSV = formatEACSV(this.state.locations, this.state.allDataDictionary);
+      siCSV = formatSICSV(this.state.locations, this.state.allDataDictionary);
     }
+
 
     return (
 
@@ -741,12 +754,25 @@ export class MapContainer extends Component {
                     justifyContent: "center",
                     alignItems: "center",
                     lineHeight: 3,
-                    margin: 75,
+                    margin: 30,
                   }}
                   >
-                    <button>
-                      Download Filtered Data
-                    </button>
+                    <Col style={{marginLeft: 80}}>
+                      <Row>
+                        <button style={{width: 300}}>
+                          <CSVLink class="download-button" data={eaCSV} filename={"EAData.csv"}>
+                            Download Filtered Elemental Analysis
+                          </CSVLink>
+                        </button>
+                      </Row>
+                      <Row>
+                        <button style={{width: 300}}>
+                          <CSVLink class="download-button" data={siCSV} filename={"SIData.csv"}>
+                            Download Filtered Site Inventory
+                          </CSVLink>
+                        </button>
+                      </Row>
+                    </Col>
                   </div>
               </div>
             </div>
@@ -769,6 +795,121 @@ export class MapContainer extends Component {
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyBI1RiUMsjw1UhbRc8wKWUt7VphFjvyNkA'
 })(MapContainer);
+
+
+function formatEACSV(locations, dataDictionary) {
+  if (locations.length === 0) {
+    return [];
+  }
+  if (Object.keys(dataDictionary).length === 0) {
+    return [];
+  }
+  var myList = [
+    [
+    "Site","Sample Number","Species","Year Collected","Year Published","Analysis Method",
+    "Ca","K","Mg","N","P","S","Al","As","B","Ba","Cd","Co","Cr","Cu","Fe","Mn","Mo",
+    "Na","Ni","Pb","Se","Si","Sr","Ti","V","Zn","Cl","Br","Rb","CuZn","FeTi","F"
+    ]
+  ];
+
+
+  for (var j = 0; j < locations.length; ++j) {
+
+    if (typeof dataDictionary[locations[j].SiteCode].EAData === "undefined"){
+      continue;
+    }
+
+    var allEAData = dataDictionary[locations[j].SiteCode].EAData;
+
+    var siteIDToIndex = {};
+    for (let i = 0; i < allEAData.length; i++) {
+      var siteSampleNumber = parseFloat(allEAData[i].Sample);
+      siteIDToIndex[siteSampleNumber] = i;
+    }
+
+    var sortedSiteIndexDict = Object.keys(siteIDToIndex);
+
+    for (var i = 0; i < sortedSiteIndexDict.length; i++) {
+      var currentSampleDict = allEAData[siteIDToIndex[sortedSiteIndexDict[i]]];
+      myList.push([
+          String(locations[j].SiteCode),
+          String(sortedSiteIndexDict[i]),
+          String(currentSampleDict["Species"]),
+          String(currentSampleDict["ycollect"]),
+          String(currentSampleDict["ypublish"]),
+          String(currentSampleDict["tech"]),
+          String(currentSampleDict["CaPERC"]),
+          String(currentSampleDict["KPERC"]),
+          String(currentSampleDict["MgPERC"]),
+          String(currentSampleDict["NPERC"]),
+          String(currentSampleDict["PPERC"]),
+          String(currentSampleDict["SPERC"]),
+          String(currentSampleDict["Al"]),
+          String(currentSampleDict["As"]),
+          String(currentSampleDict["B"]),
+          String(currentSampleDict["Ba"]),
+          String(currentSampleDict["Cd"]),
+          String(currentSampleDict["Co"]),
+          String(currentSampleDict["Cr"]),
+          String(currentSampleDict["Cu"]),
+          String(currentSampleDict["Fe"]),
+          String(currentSampleDict["Mn"]),
+          String(currentSampleDict["Mo"]),
+          String(currentSampleDict["Na"]),
+          String(currentSampleDict["Ni"]),
+          String(currentSampleDict["Pb"]),
+          String(currentSampleDict["Se"]),
+          String(currentSampleDict["Si"]),
+          String(currentSampleDict["Sr"]),
+          String(currentSampleDict["Ti"]),
+          String(currentSampleDict["V"]),
+          String(currentSampleDict["Zn"]),
+          String(currentSampleDict["Cl"]),
+          String(currentSampleDict["Br"]),
+          String(currentSampleDict["Rb"]),
+          String(currentSampleDict["Cu_Zn"]),
+          String(currentSampleDict["Fe_Ti"]),
+          String(currentSampleDict["F"])
+        ])
+    }
+  }
+
+  return myList
+}
+
+function formatSICSV(locations, dataDictionary) {
+  if (locations.length === 0) {
+    return []
+  }
+  if (Object.keys(dataDictionary).length === 0) {
+    return [];
+  }
+
+  var myList = [
+    ["Site Code", "Ecoregion Level III", "Ecoregion 4",
+    "Source (Report)", "Country", "State", "County", "USNF/NRA/NP",
+    "Wilderness Area/unit", "Detailed Locality Data", "Lat", "Long",
+    "Elevation (meters)", "Collection Date", "Collectors", "Species Inventory",
+     "Elemental Analysis"]
+  ];
+
+
+  for (var i = 0; i < locations.length; i++) {
+
+    var data = dataDictionary[locations[i].SiteCode]
+
+    myList.push([data.SiteCode, data.EcoRegion3, data.EcoRegion4, data.Source,
+       data.Country, data.State, data.County, data.USNF_NRA_NP,
+       data.WildernessArea, data.DetailedLocalityData, data.Lat, data.Lng,
+        data.Elevation, data.CollectionDate, data.Collectors,
+        data.SpeciesInventory, data.ElementalAnalysis])
+  }
+
+
+  return myList
+}
+
+
 
 function getSiteCoordinates() {
   return fetch(`${SERVER_ROOT}/dev/sites?LatLngOnly=true`)
