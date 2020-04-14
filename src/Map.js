@@ -28,6 +28,9 @@ let redIcon = {
 
 const SERVER_ROOT = 'https://mne5wp8j5m.execute-api.us-west-2.amazonaws.com';
 
+var eaCSV = [];
+var siCSV = [];
+
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
@@ -359,8 +362,6 @@ export class MapContainer extends Component {
 
 
   render() {
-    var eaCSV = [["testing", "working?"]];
-    var siCSV = [];
 
     if (this.state.locations.length !== 0 && Object.keys(this.state.allDataDictionary).length !== 0 && this.state.firstTime === true) {
       eaCSV = formatEACSV(this.state.locations, this.state.allDataDictionary);
