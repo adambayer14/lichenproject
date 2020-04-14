@@ -6,7 +6,7 @@ colorVec = c("red","blue","yellow","orange","hotpink", "mediumorchid4", "lightsa
 
 
 #Download data and save it
-myData = read_csv("~/Desktop/lichenproject/public/EA_data_half_loc copy.csv")
+myData = read_csv("/home/jacob/lichenproject/public/EA_data_half_loc copy.csv")
 myDataPerm = myData
 #Get sites as unique vector
 tempData = arrange(myData, site)
@@ -230,8 +230,8 @@ for (siteID in uniqueSites) {
   percentSave = paste(siteID, "_percent.jpeg", sep = "")
   ppmSave = paste(siteID, "_ppm.jpeg", sep = "")
   
-  ggsave(percentSave, plot = percentPlot, width = 8, height = 4.33, path = "~/Desktop/lichenproject/public/images/")
-  ggsave(ppmSave, plot = ppmPlot, width = 8, height = 4.33, path = "~/Desktop/lichenproject/public/images/")
+  ggsave(percentSave, plot = percentPlot, width = 8, height = 4.33, path = "/home/jacob/lichenproject/public/images/")
+  ggsave(ppmSave, plot = ppmPlot, width = 8, height = 4.33, path = "/home/jacob/lichenproject/public/images/")
   
 }
 
