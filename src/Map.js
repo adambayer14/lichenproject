@@ -764,14 +764,14 @@ export class MapContainer extends Component {
                     <Col style={{marginLeft: 80}}>
                       <Row>
                         <button style={{width: 300}}>
-                          <CSVLink class="download-button" data={eaCSV} filename={"EAData.csv"}>
+                          <CSVLink class="download-button" data={eaCSV} filename={"EAData.csv"} target="_self">
                             Download Filtered Elemental Analysis
                           </CSVLink>
                         </button>
                       </Row>
                       <Row>
                         <button style={{width: 300}}>
-                          <CSVLink class="download-button" data={siCSV} filename={"SIData.csv"}>
+                          <CSVLink class="download-button" data={siCSV} filename={"SIData.csv"} target="_self">
                             Download Filtered Site Inventory
                           </CSVLink>
                         </button>
