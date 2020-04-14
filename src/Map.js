@@ -366,6 +366,8 @@ export class MapContainer extends Component {
       eaCSV = formatEACSV(this.state.locations, this.state.allDataDictionary);
       siCSV = formatSICSV(this.state.locations, this.state.allDataDictionary);
       this.setState({firstTime: false})
+      console.log(eaCSV);
+      console.log(siCSV);
     }
     // This assigns color again in the case they filtered, changed element,
     // then filtered again. It keeps colors consistent with element selected.
@@ -373,6 +375,8 @@ export class MapContainer extends Component {
       this.setColorsAfterFilter();
       eaCSV = formatEACSV(this.state.locations, this.state.allDataDictionary);
       siCSV = formatSICSV(this.state.locations, this.state.allDataDictionary);
+      console.log(eaCSV);
+      console.log(siCSV);
     }
 
 
