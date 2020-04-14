@@ -3,7 +3,7 @@ library(readxl)
 
 
 #Download data and save it
-myData = read_csv("~/Desktop/lichenproject/node_modules/r-script/EA_data_half_loc copy.csv")
+myData = read_csv("/home/jacob/lichenproject/node_modules/r-script/EA_data_half_loc copy.csv")
 
 myData = select(myData, -c(X1,site,sample,species,ycollect,ypublish,tech)) %>%
   rename(Ca = CaPERC, K = KPERC, Mg = MgPERC, N = NPERC, P = PPERC, S = SPERC)
