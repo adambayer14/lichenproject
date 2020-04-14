@@ -359,7 +359,7 @@ export class MapContainer extends Component {
 
 
   render() {
-    var eaCSV = ["testing", "working?"];
+    var eaCSV = [["testing", "working?"]];
     var siCSV = [];
 
     if (this.state.locations.length !== 0 && Object.keys(this.state.allDataDictionary).length !== 0 && this.state.firstTime === true) {
